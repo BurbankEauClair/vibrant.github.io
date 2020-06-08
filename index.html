@@ -26,17 +26,29 @@
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
   <div class="tradingview-widget-container__widget"></div>
-  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-TSLA/" rel="noopener" target="_blank"><span class="blue-text">TSLA Quotes</span></a> by TradingView</div>
-</div>
-<!-- TradingView Widget END -->
-  </body>
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com" rel="noopener" target="_blank"><span class="blue-text">Quotes</span></a> by TradingView</div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
   {
-  "symbol": "NASDAQ:TSLA",
-  "width": "350",
+  "symbols": [
+    {
+      "description": "Tesla",
+      "proName": "NASDAQ:TSLA"
+    },
+    {
+      "description": "Apple",
+      "proName": "NASDAQ:AAPL"
+    },
+    {
+      "description": "Nikola Motors",
+      "proName": "NASDAQ:NKLA"
+    }
+  ],
   "colorTheme": "light",
-  "isTransparent": false,
+  "isTransparent": true,
   "locale": "en"
 }
   </script>
+</div>
+<!-- TradingView Widget END -->
+  </body>
 </html>

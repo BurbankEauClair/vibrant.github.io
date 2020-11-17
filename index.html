@@ -42,6 +42,33 @@
 				d="M16.3,0C7.3,0,0,7.3,0,16.3c0,7.2,4.7,13.3,11.1,15.5c0.8,0.1,1.1-0.4,1.1-0.8c0-0.4,0-1.4,0-2.8c-4.5,1-5.5-2.2-5.5-2.2c-0.7-1.9-1.8-2.4-1.8-2.4c-1.5-1,0.1-1,0.1-1c1.6,0.1,2.5,1.7,2.5,1.7c1.5,2.5,3.8,1.8,4.7,1.4c0.1-1.1,0.6-1.8,1-2.2c-3.6-0.4-7.4-1.8-7.4-8.1c0-1.8,0.6-3.2,1.7-4.4C7.4,10.7,6.8,9,7.7,6.8c0,0,1.4-0.4,4.5,1.7c1.3-0.4,2.7-0.5,4.1-0.5c1.4,0,2.8,0.2,4.1,0.5c3.1-2.1,4.5-1.7,4.5-1.7c0.9,2.2,0.3,3.9,0.2,4.3c1,1.1,1.7,2.6,1.7,4.4c0,6.3-3.8,7.6-7.4,8c0.6,0.5,1.1,1.5,1.1,3c0,2.2,0,3.9,0,4.5c0,0.4,0.3,0.9,1.1,0.8c6.5-2.2,11.1-8.3,11.1-15.5C32.6,7.3,25.3,0,16.3,0z" />
 		</symbol>
 	</svg>
+	<style>
+		div.anim {
+			background: 50% 100% / 50% 50% no-repeat radial-gradient(ellipse at bottom, #fff, transparent, transparent);
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			animation: reveal 3000ms ease-in-out forwards 200ms,
+				glow 2500ms linear infinite 2000ms;
+		}
+
+		@keyframes reveal {
+			80% {
+				letter-spacing: 8px;
+			}
+
+			100% {
+				background-size: 300% 300%;
+			}
+		}
+
+		@keyframes glow {
+			40% {
+				text-shadow: 0 0 1px #fff;
+				opacity: 0.8;
+			}
+		}
+	</style>
 	<main>
 		<div class="content">
 			<header class="codrops-header" style="position: fixed;">
@@ -49,14 +76,14 @@
 					<a class="codrops-icon codrops-icon--prev" href="#" title="Previous Demo"><img src="img/vc.png"
 							style="width:4rem">
 					</a>
-					<h1 class="codrops-header__title" style="font-size: 3rem; line-height: 2.2rem; margin-left:-4rem; margin-top:0.2rem; background: -webkit-linear-gradient(#3aa3cc, #915491);
-						-webkit-background-clip: text;
-						-webkit-text-fill-color: transparent; opacity: 0.3">
-						&nbsp;IBRANT<br>APITAL
-					</h1>
-
+					<div class="anim">
+						<h1 class="codrops-header__title"
+							style="font-size: 3rem; line-height: 2.2rem; margin-left:-4rem; margin-top:0.2rem;">
+							&nbsp;IBRANT<br>APITAL
+						</h1>
+					</div>
 			</header>
-			<p class="info">&#169; Vibrant Capital</p>
+			<p class=" info">&#169; Vibrant Capital</p>
 		</div>
 		<div class="content">
 			<div class="content__section">

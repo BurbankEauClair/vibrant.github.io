@@ -112,4 +112,8 @@
 	.content__text {
 		font-size: 10vw;
 	}
+
+	video.content__img {
+		margin-top: 98%;
+	}
 }

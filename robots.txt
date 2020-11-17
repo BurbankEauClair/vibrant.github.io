@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://www.dreamstormstudios.com/sitemap.xml
-Host: https://www.dreamstormstudios.com

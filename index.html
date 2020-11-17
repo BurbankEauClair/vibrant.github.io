@@ -58,28 +58,52 @@
 		</symbol>
 	</svg>
 	<style>
-		div.anim {
-			background: 50% 100% / 50% 50% no-repeat radial-gradient(ellipse at bottom, #fff, transparent, transparent);
+		div.top {
+			overflow: hidden;
+			background: linear-gradient(90deg, #000, #fff, #000);
+			background-repeat: no-repeat;
+			background-size: 50%;
+			x-transition: all 9s ease-in-out;
+			animation: top 9s linear infinite;
 			-webkit-background-clip: text;
-			background-clip: text;
-			color: transparent;
-			animation: reveal 3000ms ease-in-out forwards 200ms,
-				glow 2500ms linear infinite 2000ms;
+			-webkit-text-fill-color: rgba(255, 255, 255, 0);
+			font-size: 3rem;
+			margin-left: -3rem;
+			margin-top: -0.7rem;
 		}
 
-		@keyframes reveal {
-			80% {
-				letter-spacing: 8px;
+		@keyframes top {
+			0% {
+				background-position: -500%;
 			}
 
 			100% {
-				background-size: 300% 300%;
+				background-position: 500%;
 			}
 		}
 
-		@keyframes glow {
-			50% {
-				text-shadow: 0 0 1px #fff;
+		div.bottom {
+			overflow: hidden;
+			background: linear-gradient(-90deg, #000, #fff, #000);
+			background-repeat: no-repeat;
+			background-size: 200%;
+			x-transition: all 9s ease-in-out;
+			animation: bottom 9s linear infinite;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: rgba(255, 255, 255, 0);
+			font-size: 3rem;
+			margin-left: -275px;
+			margin-top: 1.4rem;
+		}
+
+
+		@keyframes bottom {
+			0% {
+				background-position: -500%;
+			}
+
+			100% {
+				background-position: 500%;
 			}
 		}
 	</style>
@@ -90,14 +114,17 @@
 					<a class="codrops-icon codrops-icon--prev" href="#" title="Previous Demo"><img src="img/vc.svg"
 							style="width:4rem">
 					</a>
-					<div class="anim">
-						<h1 class="codrops-header__title"
-							style="font-size: 3rem; line-height: 2.2rem; margin-left:-4rem; margin-top:0.2rem;">
-							&nbsp;IBRANT<br>APITAL
+					<div class="top">
+						<h1 class="codrops-header__title top">
+							IBRANT
 						</h1>
 					</div>
+					<div class="bottom">
+						<h1 class="codrops-header__title bottom">APITAL</h1>
+					</div>
 			</header>
-			<p class=" info">&trade; &#169;</p>
+			<p class=" info">&trade;
+				&#169;</p>
 		</div>
 		<div class="content">
 			<div class="content__section">

@@ -55,11 +55,7 @@
     <meta property="twitter:image" content="https://vibrantcapital.eu/index_files/social.png">
 </head>
 
-<body x-id="body" class="font-sans text-base text-white antialiased leading-relaxed bg-black overflow-x-hidden"
-    @menuopenevent.window="isMenuOpen = $event.detail.isMenuOpen;"
-    x-data="{ &#39;isMenuOpen&#39;: false, &#39;isModalOpen&#39;: false, &#39;modalVideoId&#39;: false }"
-    x-on:keydown.escape="{ &#39;isMenuOpen&#39; = false, &#39;isModalOpen&#39; = false }"
-    x-init=" document.getElementById(&#39;modal-video&#39;).classList.remove(&#39;hidden&#39;); document.getElementById(&#39;menu&#39;).classList.remove(&#39;hidden&#39;)">
+<body x-id="body" class="font-sans text-base text-white antialiased leading-relaxed bg-black overflow-x-hidden">
     <a href="#" class="sr-only focus:not-sr-only"> Aller au contenu principal</a> <a id="main-content"
         tabindex="-1"></a>
     <div id="cookie-warning" class="relative z-50 lg:left-0 lg:right-0 lg:fixed lg:bottom-0 lg:w-5/12 xl:w-4/12 hidden">

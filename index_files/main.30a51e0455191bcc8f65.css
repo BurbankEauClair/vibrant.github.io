@@ -130,7 +130,7 @@
 
 @media (max-width:768px) {
     .text-xl {
-        font-size: 5.6rem;
+        font-size: 5.6rem !important;
     }
     .vc-logo {
         width: 30%;

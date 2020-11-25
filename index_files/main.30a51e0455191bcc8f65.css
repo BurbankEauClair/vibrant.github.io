@@ -18840,7 +18840,7 @@ input.button {
     .lg\:space-x-24>:not(template)~:not(template) {
         --space-x-reverse: 0;
         margin-right: calc(6rem*var(--space-x-reverse));
-        margin-left: calc(6rem*(1 - var(--space-x-reverse)))
+        margin-left: calc(2rem*(1 - var(--space-x-reverse)))
     }
     .lg\:space-x-32>:not(template)~:not(template) {
         --space-x-reverse: 0;
@@ -19136,7 +19136,7 @@ input.button {
     .xl\:space-x-64>:not(template)~:not(template) {
         --space-x-reverse: 0;
         margin-right: calc(16rem*var(--space-x-reverse));
-        margin-left: calc(16rem*(1 - var(--space-x-reverse)))
+        margin-left: calc(2rem*(1 - var(--space-x-reverse)))
     }
     .xl\:text-4xl {
         font-size: 8rem

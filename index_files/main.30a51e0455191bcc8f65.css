@@ -19167,6 +19167,17 @@ input.button {
     }
 }
 
+img.men {
+    max-width: 30%; 
+}
+
+
+img.woman {
+    max-width: 48%; 
+}
+
+
+
 @media (max-width:768px) {
     .text-xl {
         font-size: 5.6rem !important;

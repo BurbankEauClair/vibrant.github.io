@@ -37,7 +37,7 @@ body {
   height: 100%;
   position: absolute;
   width: 100%;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .stage {
@@ -46,14 +46,13 @@ body {
   width: 716px;
   height: 1008px;
   background: #DAE0D2;
-  background: linear-gradient(0deg, rgba(218, 224, 210, 1) 50%, rgba(218, 224, 210, 0) 100%);
   visibility: hidden;
-  background-image: url("audiquattro.jpg");
+  background-image: url("paper.jpg");
   background-size: cover;
 }
 
 canvas {
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .content {

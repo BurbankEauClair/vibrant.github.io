@@ -32,11 +32,44 @@
 		@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:900");
 
 		html {
+			margin: 0;
+			font-smoothing: antialiased;
+			text-rendering: optimizeLegibility;
+			height: auto;
+			overflow: scroll;
+			overflow-x: hidden;
+		}
+
+		::-webkit-scrollbar {
+			width: 0;
+			/* Remove scrollbar space */
+			background: transparent;
+			/* Optional: just make scrollbar invisible */
+		}
+
+		body {
+			margin: 0;
+			background:
+				linear-gradient(skyblue,
+					transparent),
+				linear-gradient(0deg,
+					coral,
+					transparent),
+				linear-gradient(0deg,
+					limegreen,
+					transparent);
+			background-size: auto;
+			background-repeat: no-repeat;
+
+		}
+
+		body:before {
+			content: '';
 			position: fixed;
 			top: 0;
-			left: 0;
-			min-width: 100%;
-			min-height: 100%;
+			bottom: 0;
+			width: 100%;
+			z-index: -1;
 			background:
 				linear-gradient(limegreen,
 					transparent),
@@ -46,9 +79,15 @@
 				linear-gradient(-90deg,
 					coral,
 					transparent);
-
 			background-blend-mode: screen;
-			background-size: cover;
+
+			background-size: auto;
+
+		}
+
+		#container {
+			margin: 10% 27%;
+			padding: 30px 60px;
 		}
 
 		h1 {
@@ -56,7 +95,6 @@
 			text-transform: uppercase;
 			color: #fff;
 			text-align: left;
-			padding-left: 30%;
 			letter-spacing: -6px;
 			text-shadow: 1px 1px 1px #66644d,
 				2px 2px 1px #66644d,
@@ -96,6 +134,75 @@
 			-webkit-backface-visibility: hidden;
 		}
 
+		h2 {
+			font: 900 6em/.85 'Source Sans Pro', Arial, sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			text-align: left;
+			letter-spacing: -5px;
+			text-shadow: 1px 1px 1px #66644d,
+				2px 2px 1px #66644d,
+				3px 3px 1px #66644d,
+				4px 4px 1px #66644d,
+				5px 5px 1px #66644d,
+				6px 6px 1px #66644d,
+				7px 7px 1px #66644d,
+				8px 8px 1px #66644d,
+				9px 9px 1px #66644d,
+				10px 10px 1px #66644d,
+				11px 11px 1px #66644d,
+				12px 12px 1px #66644d,
+				13px 13px 1px #66644d,
+				14px 14px 1px #66644d,
+				15px 15px 1px #66644d,
+				16px 16px 1px #66644d,
+				17px 17px 1px #66644d,
+				18px 18px 1px #66644d,
+				19px 19px 1px #66644d,
+				20px 20px 1px #66644d,
+				21px 21px 1px #66644d,
+				22px 22px 1px #66644d,
+				23px 23px 1px #66644d,
+				24px 24px 1px #66644d,
+				25px 25px 1px #66644d;
+
+			-webkit-transform: skewY(-25deg);
+			-moz-transform: skewY(-25deg);
+			transform: skewY(-25deg);
+
+			-webkit-backface-visibility: hidden;
+		}
+
+		h4 {
+			font: 900 3em/.85 'Source Sans Pro', Arial, sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			text-align: left;
+			margin-bottom: 30%;
+			letter-spacing: -2px;
+			text-shadow: 1px 1px 1px #66644d,
+				2px 2px 1px #66644d,
+				3px 3px 1px #66644d,
+				4px 4px 1px #66644d,
+				5px 5px 1px #66644d,
+				6px 6px 1px #66644d,
+				7px 7px 1px #66644d,
+				8px 8px 1px #66644d,
+				9px 9px 1px #66644d,
+				10px 10px 1px #66644d,
+				11px 11px 1px #66644d,
+				12px 12px 1px #66644d,
+				13px 13px 1px #66644d,
+				14px 14px 1px #66644d,
+				15px 15px 1px #66644d;
+
+			-webkit-transform: skewY(-25deg);
+			-moz-transform: skewY(-25deg);
+			transform: skewY(-25deg);
+
+			-webkit-backface-visibility: hidden;
+		}
+
 		.logo {
 			position: relative;
 			width: 80px;
@@ -104,24 +211,44 @@
 		}
 
 		@media only screen and (max-width: 450px) {
-			h1 {
-				margin-left: -35% !important;
-				margin-top: 30%;
-				font-size: 6rem;
+
+			#container {
+				margin: auto;
+			}
+
+			h1,
+			h2,
+			h4 {
 				word-break: break-word;
-				position: absolute;
+				zoom: 70%;
 			}
 		}
 	</style>
 
 <body>
-
-	<h1>Vibrant<br>
-		Capital<p>
-			supporting<br>
-			disruption<br>
-
-	</h1>
+	<div id="container">
+		<h1>We are Vibrant
+			Capital
+		</h1>
+		<h4>Because money never sleeps</h4>
+		<h2>
+			100% disruptive investments
+			</p>
+			<p>
+				we also<br>
+				do sweat
+				equity
+				investments
+				in scale-ups
+				to secure
+				future capital
+				and due diligences
+			</p>
+		</h2>
+		<h4>
+			reach out to find out<br>what we can do for you
+		</h4>
+	</div>
 </body>
 
 </html>

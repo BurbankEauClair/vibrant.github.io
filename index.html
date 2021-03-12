@@ -55,7 +55,7 @@
 				linear-gradient(0deg,
 					coral,
 					transparent),
-				linear-gradient(0deg,
+				linear-gradient(45deg,
 					limegreen,
 					transparent);
 			background-size: auto;
@@ -207,7 +207,10 @@
 			-webkit-backface-visibility: hidden;
 		}
 
-		h4 {
+		h4,
+		input,
+		label,
+		textarea {
 			font: 900 3em/.85 'Source Sans Pro', Arial, sans-serif;
 			text-transform: uppercase;
 			color: #fff;
@@ -255,6 +258,119 @@
 
 				margin-left: -15%;
 			}
+
+			form {
+				display: none;
+			}
+		}
+
+		input,
+		span,
+		label,
+		textarea {
+			display: block;
+			margin: 10px;
+			padding: 5px;
+			border: none;
+			background: transparent;
+		}
+
+		input {
+			border-bottom: 2px dashed white;
+		}
+
+		textarea:focus,
+		input:focus {
+			outline: 0;
+		}
+
+		/* Question */
+
+		input.question,
+		textarea.question {
+			transition: padding-top 0.2s ease, margin-top 0.2s ease;
+			overflow-x: hidden;
+			/* Hack to make "rows" attribute apply in Firefox. */
+		}
+
+		/* Underline and Placeholder */
+
+		input.question+label,
+		textarea.question+label {
+			display: block;
+			position: relative;
+			white-space: nowrap;
+			padding: 0;
+			margin: 0;
+			-webkit-transition: width 0.4s ease;
+			transition: width 0.4s ease;
+			height: 0px;
+		}
+
+		input.question:focus+label,
+		textarea.question:focus+label {
+			width: 100%;
+		}
+
+		input.question:valid+label,
+		textarea.question:valid+label {}
+
+		input.question:invalid,
+		textarea.question:invalid {
+			box-shadow: none;
+			color: white;
+		}
+
+		input.question+label>span,
+		textarea.question+label>span {
+			margin: 0;
+			position: absolute;
+			left: 0px;
+			z-index: -1;
+			-webkit-transition: top 0.2s ease, color 0.2s ease;
+			transition: top 0.2s ease, color 0.2s ease;
+		}
+
+		input[type="submit"] {
+			-webkit-transition: opacity 0.2s ease, margin-top 0.2 ease, font-size 0.2 ease;
+			transition: opacity 0.2s ease, margin-top 0.2 ease, font-size 0.2 ease;
+			display: block;
+			opacity: 0;
+			margin: -20px;
+			cursor: pointer;
+			background: transparent;
+			border: none;
+			padding: 14px;
+
+		}
+
+		input.question:valid~input[type="submit"],
+		textarea.question:valid~input[type="submit"] {
+			-webkit-animation: appear 1s forwards;
+			animation: appear 1s forwards;
+		}
+
+		input.question:invalid~input[type="submit"],
+		textarea.question:invalid~input[type="submit"] {
+			display: none;
+		}
+
+		@-webkit-keyframes appear {
+			100% {
+				opacity: 1;
+				background: transparent;
+				margin-top: 200px;
+				font-size: 6rem;
+			}
+		}
+
+		@keyframes appear {
+			100% {
+				opacity: 1;
+				background: transparent;
+				margin-top: 200px;
+				font-size: 6rem;
+			}
 		}
 	</style>
 
@@ -281,6 +397,12 @@
 		<h4>
 			reach out to find out what we can do for you
 		</h4>
+		<form>
+			<input type="text" name="name" class="question" id="nme" required autocomplete="off" />
+			<label for="nme"><span>RFC by submitting your email</span></label>
+			<input type="submit" value="Submit" />
+		</form>
+		<span style="padding: 150px"></span>
 	</div>
 </body>
 

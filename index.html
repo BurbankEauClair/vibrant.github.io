@@ -240,6 +240,10 @@
 			-webkit-backface-visibility: hidden;
 		}
 
+		.hundra {
+			font-size: 2.3em;
+		}
+
 		@media only screen and (max-width: 767px) {
 
 			#container {
@@ -262,6 +266,14 @@
 			form {
 				display: none;
 			}
+
+			h3 {
+				margin-left: -40px;
+			}
+
+			.hundra {
+				font-size: 1.8em;
+			}
 		}
 
 		input,
@@ -269,7 +281,7 @@
 		label,
 		textarea {
 			display: block;
-			margin: 10px;
+			margin: 0px;
 			padding: 5px;
 			border: none;
 			background: transparent;
@@ -290,7 +302,7 @@
 		textarea.question {
 			transition: padding-top 0.2s ease, margin-top 0.2s ease;
 			overflow-x: hidden;
-			margin-left: 30px;
+			margin-left: 10px;
 			/* Hack to make "rows" attribute apply in Firefox. */
 		}
 
@@ -337,7 +349,7 @@
 			transition: opacity 0.2s ease, margin-top 0.2 ease, font-size 0.2 ease;
 			display: block;
 			opacity: 0;
-			margin: -20px;
+			margin: 0px;
 			cursor: pointer;
 			background: transparent;
 			border: none;
@@ -349,6 +361,11 @@
 		textarea.question:valid~input[type="submit"] {
 			-webkit-animation: appear 1s forwards;
 			animation: appear 1s forwards;
+		}
+
+		input[type="submit"]:hover {
+			color: #dedede;
+
 		}
 
 		input.question:invalid~input[type="submit"],
@@ -382,7 +399,7 @@
 		</h1>
 		<h3>10X-ing since 2019</h3>
 		<h2>
-			100% disruptive investments
+			<span class="hundra">All in</span> on disruptive investments
 			</p>
 			<p>
 				we may also<br>

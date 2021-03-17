@@ -52,7 +52,6 @@
 			opacity: 0.05;
 			resize: both;
 			overflow: auto;
-			padding: 50px;
 		}
 
 		::-webkit-scrollbar {
@@ -255,10 +254,18 @@
 
 		@media only screen and (max-width: 767px) {
 
+			#html {
+				position: fixed;
+			}
+
 			#container {
 				margin: 10px;
 				padding: unset;
 				font-size: 2.3vw;
+			}
+
+			#logo {
+				background-size: 10%;
 			}
 		}
 

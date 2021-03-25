@@ -284,14 +284,6 @@
 				top: 0;
 				background-size: 10%;
 			}
-
-			span[data-aos="fade-left"],
-			span[data-aos="fade-right"],
-			span[data-aos="zoom-in"] {
-				animation: none !important;
-				transform: none !important;
-				transition-property: none !important;
-			}
 		}
 
 		input,
@@ -466,7 +458,9 @@
 	</div>
 </body>
 <script>
-	AOS.init();
+	AOS.init({
+		disable: 'mobile'
+	});
 </script>
 
 </html>

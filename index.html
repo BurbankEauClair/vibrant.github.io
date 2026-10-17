@@ -297,7 +297,9 @@
   .engage { background: var(--panel); }
   .band-wrap { position: relative; padding-top: 2.4rem; }
   .band-ends { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; gap: 1rem; color: var(--mute); }
-  .engage .gl.band3d { position: relative; inset: auto; height: clamp(170px, 19vw, 260px); margin-top: .6rem; }
+  .engage .gl.band3d { position: relative; inset: auto; z-index: 3; height: clamp(84px, 8vw, 120px); margin-top: .6rem; }
+  /* the canvas overhangs the band so the block can turn in 3D without being clipped; only the band takes the drag */
+  .gl-over { position: absolute; left: 0; right: 0; top: -160%; bottom: -160%; pointer-events: none; }
   .engage .stop::before { display: none; }
   .engage.static .band3d { display: none; }
   .stops { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2.5rem; }
@@ -618,7 +620,7 @@
       </div>
       <div class="band-wrap rv d1">
         <div class="band-ends mono"><span>100% fee</span><span class="hide-s">Drag to rotate · tap to spin</span><span>100% equity</span></div>
-        <div class="gl band3d" aria-hidden="true"></div>
+        <div class="gl band3d" aria-hidden="true"><div class="gl-over"></div></div>
         <div class="stops">
           <div class="stop">
             <span class="mono split">Fee only</span>
@@ -857,9 +859,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
-  var hero = document.getElementById('hero'), contact = document.getElementById('contact');
+  var hero = document.getElementById('hero'), contact = document.getElementById('contact'), engage = document.getElementById('engage');
   var ticks = [].slice.call(hero.querySelectorAll('.parts li'));
-  var engage = document.getElementById('engage');
   function still() { hero.classList.add('static'); contact.classList.add('static'); engage.classList.add('static'); }
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.THREE) return still();
 
@@ -876,12 +877,17 @@
   function seg(p, a, b) { return clamp((p - a) / (b - a)); }
   function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
 
-  // A 3D mark: three extruded parts that fly in from `from`, a dashed blueprint, drag to rotate, tap to spin.
-  function Mark3D(host, from, perPartSpin) {
+  // A 3D mark: three extruded parts that fly in from `from`, drag to rotate, tap to spin.
+  // Each part is an outer group (position, scale) around an inner one (rotation), so a part can be turned
+  // first and stretched after, which is how the engagement row lays the parts flat.
+  // opts.stage: element the canvas fills (defaults to host); opts.flip: tap flips each part on its long axis.
+  function Mark3D(host, from, opts) {
+    opts = opts || {};
+    var stage = opts.stage || host;
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     if (!renderer.getContext()) throw new Error('no webgl');
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    host.insertBefore(renderer.domElement, host.firstChild);
+    stage.insertBefore(renderer.domElement, stage.firstChild);
     var scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, 1, 2000);
     scene.add(new THREE.AmbientLight(0xffffff, 0.72));
     var key = new THREE.DirectionalLight(0xffffff, 0.75); key.position.set(-50, 70, 110); scene.add(key);
@@ -904,21 +910,22 @@
       var home = new THREE.Vector3(); geo.boundingBox.getCenter(home); geo.translate(-home.x, -home.y, -home.z);
       var mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, opacity: 0, roughness: 0.42, metalness: 0.12 }));
       var edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: EDGE[i], transparent: true, opacity: 1 }));
-      var g = new THREE.Group(); g.add(mesh); g.add(edges); turn.add(g);
-      return { g: g, mesh: mesh, edges: edges, home: home, from: from[i] };
+      var inner = new THREE.Group(), outer = new THREE.Group();
+      inner.add(mesh); inner.add(edges); outer.add(inner); turn.add(outer);
+      return { outer: outer, inner: inner, mesh: mesh, edges: edges, geo: geo, home: home, from: from[i], rest: { rz: 0, sx: 1, sy: 1 } };
     });
 
-    // the blueprint: a dashed outline of each part, drawn around the part's own centre and kept at its home
+    // the blueprint: a dashed outline of each part where it belongs in the mark
     var ghosts = MARK.map(function (poly, i) {
       var h = parts[i].home;
       var pts = poly.map(function (q) { return new THREE.Vector3(q[0] - 20 - h.x, 20 - q[1] - h.y, 0); });
       pts.push(pts[0].clone());
       var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 1, gapSize: 1.2, transparent: true, opacity: 0.3 }));
-      line.computeLineDistances(); turn.add(line);
+      line.computeLineDistances(); line.position.copy(h); turn.add(line);
       return line;
     });
 
-    // drag rotates; a tap (no real movement) spins the parts one full turn in 90° steps
+    // drag rotates; a tap (no real movement) turns the parts one full turn in 90° steps
     var user = { x: 0, y: 0, vx: 0, vy: 0, drag: false, idle: 0, px: 0, py: 0, moved: 0 };
     var spin = { angle: 0, from: 0, to: 0, t0: 0, left: 0, moving: false };
     function nextStep(now) { spin.from = spin.angle; spin.to = spin.angle - Math.PI / 2; spin.t0 = now; spin.left--; spin.moving = true; }
@@ -938,23 +945,49 @@
     });
     host.addEventListener('pointercancel', function () { user.drag = false; user.idle = performance.now(); });
 
-    var api = { narrow: false, distance: 150, offset: [0, 0], parts: parts };
+    var api = { narrow: false, distance: 150, offset: [0, 0], tilt: [0.42, -0.8], parts: parts };
     api.size = function () {
-      var w = host.clientWidth, h = host.clientHeight;
+      var w = stage.clientWidth, h = stage.clientHeight;
       renderer.setSize(w, h, false); camera.aspect = w / h; api.narrow = w < 760;
     };
-    api.visible = function () { var r = host.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+    api.visible = function () { var r = stage.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+    // world units per CSS pixel at the z = 0 plane
+    api.unit = function () { return 2 * api.distance * Math.tan(15 * Math.PI / 180) / stage.clientHeight; };
+
+    // Lay the parts flat as a two-row block (W × H world units): row 1 is two parts meeting in the middle,
+    // row 2 one part across the whole width, with the mark's own cut between them. The gradient is
+    // repainted across the block, left to right.
+    api.layBlock = function (W, H, slots) {
+      var rowH = H / 2.2, gap = rowH * 0.2, half = (W - gap) / 2;
+      var target = [
+        { len: half, x: -(gap + half) / 2, y: (rowH + gap) / 2 },
+        { len: W, x: 0, y: -(rowH + gap) / 2 },
+        { len: half, x: (gap + half) / 2, y: (rowH + gap) / 2 }
+      ];
+      parts.forEach(function (pt, i) {
+        var slot = target[slots[i]], rz = i === 1 ? -Math.PI / 4 : Math.PI / 4;
+        var cz = Math.cos(rz), sz = Math.sin(rz), pos = pt.geo.attributes.position;
+        var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, k;
+        for (k = 0; k < pos.count; k++) {
+          var x = pos.getX(k) * cz - pos.getY(k) * sz, y = pos.getX(k) * sz + pos.getY(k) * cz;
+          minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+        }
+        var sx = slot.len / (maxX - minX), sy = rowH / (maxY - minY);
+        pt.rest = { rz: rz, sx: sx, sy: sy };
+        pt.home.set(slot.x - sx * (minX + maxX) / 2, slot.y - sy * (minY + maxY) / 2, 0);
+        var col = pt.geo.attributes.color, c = new THREE.Color();
+        for (k = 0; k < pos.count; k++) {
+          var wx = pt.home.x + sx * (pos.getX(k) * cz - pos.getY(k) * sz);
+          c.copy(c1).lerp(c2, clamp((wx + W / 2) / W));
+          col.setXYZ(k, c.r, c.g, c.b);
+        }
+        col.needsUpdate = true;
+      });
+    };
+
     // k(i): how far part i has arrived; fill, ghost and face are 0..1
     api.render = function (k, fill, ghost, face) {
       var now = performance.now(), t = now / 1000;
-      parts.forEach(function (pt, i) {
-        var o = 1 - ease(k(i)), f = pt.from;
-        pt.g.position.set(pt.home.x + f.p[0] * o, pt.home.y + f.p[1] * o, pt.home.z + f.p[2] * o);
-        pt.g.rotation.set(f.r[0] * o, f.r[1] * o, f.r[2] * o);
-        pt.mesh.material.opacity = fill; pt.mesh.material.transparent = fill < 1;
-        pt.edges.material.opacity = 1 - fill; pt.edges.visible = fill < 0.98;
-      });
-      ghosts.forEach(function (l, i) { l.position.copy(parts[i].home); l.material.opacity = 0.3 * ghost; l.visible = ghost > 0.02; });
       if (spin.moving) {
         var s = Math.min((now - spin.t0) / 420, 1);
         spin.angle = spin.from + (spin.to - spin.from) * ease(s);
@@ -964,13 +997,21 @@
           else spin.angle = 0;
         }
       }
-      if (perPartSpin) parts.forEach(function (pt) { pt.g.rotation.z += spin.angle; });
-      else turn.rotation.z = spin.angle;
+      parts.forEach(function (pt) {
+        var a = ease(k(parts.indexOf(pt))), o = 1 - a, f = pt.from, r = pt.rest;
+        pt.outer.position.set(pt.home.x + f.p[0] * o, pt.home.y + f.p[1] * o, pt.home.z + f.p[2] * o);
+        pt.outer.scale.set(1 + (r.sx - 1) * a, 1 + (r.sy - 1) * a, 1);
+        pt.inner.rotation.set(f.r[0] * o + (opts.flip ? spin.angle : 0), f.r[1] * o, f.r[2] * o + r.rz * a);
+        pt.mesh.material.opacity = fill; pt.mesh.material.transparent = fill < 1;
+        pt.edges.material.opacity = 1 - fill; pt.edges.visible = fill < 0.98;
+      });
+      ghosts.forEach(function (l) { l.material.opacity = 0.3 * ghost; l.visible = ghost > 0.02; });
+      turn.rotation.z = opts.flip ? 0 : spin.angle;
       if (!user.drag) {
         user.x += user.vx; user.y += user.vy; user.vx *= 0.93; user.vy *= 0.93;
         if (now - user.idle > 1800) { user.x *= 0.95; user.y *= 0.95; }
       }
-      logo.rotation.set(0.42 * (1 - face) + Math.sin(t * 0.6) * 0.05 + user.x, -0.8 * (1 - face) + Math.sin(t * 0.4) * 0.1 + user.y, 0);
+      logo.rotation.set(api.tilt[0] * (1 - face) + Math.sin(t * 0.6) * 0.05 + user.x, api.tilt[1] * (1 - face) + Math.sin(t * 0.4) * 0.1 + user.y, 0);
       logo.position.set(api.offset[0], api.offset[1], 0);
       camera.position.set(0, 0, api.distance); camera.updateProjectionMatrix();
       renderer.render(scene, camera);
@@ -979,7 +1020,7 @@
     return api;
   }
 
-  var big, foot, row;
+  var big, foot, row, band = engage.querySelector('.band3d');
   try {
     big = Mark3D(hero.querySelector('.gl'), [
       { p: [-120, 40, -60], r: [0.9, -1.5, 0.6] },
@@ -991,14 +1032,26 @@
       { p: [90, 40, -40], r: [-0.9, 1.1, -0.6] },
       { p: [60, -90, 30], r: [1.0, 0.9, -0.5] }
     ]);
-    // fee → equity: the three parts in a row; the gradient runs left to right with them
-    row = Mark3D(engage.querySelector('.band3d'), [
-      { p: [-90, 10, -30], r: [0.5, -1.3, 0.4] },
-      { p: [0, -70, -40], r: [-1.1, 0.7, -0.5] },
-      { p: [90, 10, -30], r: [0.7, 1.3, -0.4] }
-    ], true);
+    // fee → equity: the parts settle into a two-row block. Row 1: one from the left, one from the right.
+    // Row 2: one sweeping in from the left across the full width. The canvas overhangs the band so
+    // nothing is clipped when the block is turned.
+    row = Mark3D(band, [
+      { p: [-150, 6, -20], r: [0.6, -0.9, 0.5] },
+      { p: [-190, -10, 30], r: [-0.9, 0.5, -0.4] },
+      { p: [150, 6, -20], r: [0.7, 0.9, -0.5] }
+    ], { stage: band.querySelector('.gl-over'), flip: true });
+    row.tilt = [0.22, -0.3];
   } catch (e) { return still(); }
-  addEventListener('resize', function () { big.size(); foot.size(); row.size(); });
+
+  var laid = '';
+  function layRow() {
+    row.distance = 120;
+    var u = row.unit(), key = band.clientWidth + 'x' + band.clientHeight;
+    if (key === laid) return;
+    laid = key;
+    row.layBlock(band.clientWidth * u, band.clientHeight * u, [0, 1, 2]);
+  }
+  addEventListener('resize', function () { big.size(); foot.size(); row.size(); layRow(); });
 
   // the hero headline follows the build: one line per part, then the whole
   var STEPS = [
@@ -1050,15 +1103,12 @@
     }
     show(tt < 2.9 ? 0 : tt < 5.5 ? 1 : tt < 8.1 ? 2 : 3);
 
-    // engagement: the parts fly in as wireframes over Cash, Hybrid and Sweat equity, then fill
+    // engagement: wireframes fly in and settle into the block as you scroll, then fill
     if (row.visible()) {
-      row.distance = 64;
-      var rvh = 2 * row.distance * Math.tan(15 * Math.PI / 180), rvw = rvh * (row.parts.length && engage.querySelector('.band3d').clientWidth / engage.querySelector('.band3d').clientHeight);
-      var edge = Math.min(rvw / 2 - 13, rvw * 0.42);
-      row.parts[0].home.set(-edge, 0, 0); row.parts[1].home.set(0, 0, 0); row.parts[2].home.set(edge, 0, 0);
-      var b = clamp((innerHeight - engage.querySelector('.band3d').getBoundingClientRect().top) / (innerHeight * 0.75));
-      row.render(function (i) { return seg(b, 0.05 + i * 0.12, 0.42 + i * 0.12); },
-        ease(seg(b, 0.6, 0.9)), 1 - ease(seg(b, 0.55, 0.8)), ease(seg(b, 0.1, 0.9)));
+      layRow();
+      var b = clamp((innerHeight - band.getBoundingClientRect().top) / (innerHeight * 0.7));
+      row.render(function (i) { return seg(b, [0.05, 0.3, 0.12][i], [0.45, 0.72, 0.52][i]); },
+        ease(seg(b, 0.72, 0.95)), 0, ease(seg(b, 0.1, 0.9)));
     }
 
     // the contact scene: the mark builds itself again as the scene slides up into view

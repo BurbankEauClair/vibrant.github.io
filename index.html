@@ -1,466 +1,1170 @@
-<!DOCTYPE html>
-<html lang="en" class="no-js">
-
+<!doctype html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Primary Meta Tags -->
-	<title>VC | Vibrant Capital</title>
-	<meta name="title" content="VC | Vibrant Capital">
-	<meta name="description"
-		content="Green investments in sustainable growth companies we believe in. As simple as that.">
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://vibrantcapital.eu/">
-	<meta property="og:title" content="VC | Vibrant Capital">
-	<meta property="og:description"
-		content="Green investments in sustainable growth companies we believe in. As simple as that.">
-	<meta property="og:image" content="">
-
-	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://vibrantcapital.eu/">
-	<meta property="twitter:title" content="VC | Vibrant Capital">
-	<meta property="twitter:description"
-		content="Green investments in sustainable growth companies we believe in. As simple as that.">
-	<meta property="twitter:image" content="">
-	<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
-	<link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />
-	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-	<style>
-		@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:900");
-
-		html {
-			margin: 0;
-			font-smoothing: antialiased;
-			text-rendering: optimizeLegibility;
-			overflow: scroll;
-			overflow-x: hidden;
-			scroll-behavior: smooth;
-		}
-
-		#logo {
-			width: 100%;
-			height: 100%;
-			background-image: url("img/pattern.png");
-			background-repeat: round;
-			background-size: 4%;
-			position: fixed;
-			opacity: 0.05;
-			animation: animatedBackground 100s linear infinite alternate;
-		}
-
-		@keyframes animatedBackground {
-  from {
-    background-position: 0 0;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Vibrant Capital selects a few companies, takes ownership and helps them raise capital by putting the right resources in the right place, fast.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vibrant Capital">
+<meta property="og:description" content="Funding, allocated where it counts. Select, own, allocate, raise.">
+<meta property="og:url" content="https://vibrantcapital.se/">
+<meta name="theme-color" content="#0d0b0d">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Vibrant Capital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Martian+Mono:wght@300..500&display=swap" rel="stylesheet">
+<style>
+  /* Concept: "Vibrant" taken literally. The page is a set of strings; the logo is one string pulled into a V.
+     Layout: full-height scenes you page through. Hero (string field + pull-and-release sequence) → manifesto →
+     the mark assembling in 3D → thesis → model → one cinematic scene per venture → capabilities → contact with the mark again. */
+  :root {
+    --bg: #fcfbfb;
+    --fg: #141114;
+    --mute: #6c6570;
+    --line: #e6e1e5;
+    --panel: #f3f0f2;
+    --accent: #e5127d;       /* signal pink: the one loud colour */
+    --accent-ink: #c40f6a;   /* accent for small text on light */
+    --night: #0d0b0d;        /* cinematic scenes, fixed in both themes */
+    --on-night: #f4f1f3;
+    --on-night-mute: #a39aa6;
+    --hot: #ff3d9a;          /* accent on night */
+    --g1: #ff1f8e;           /* the vibrant gradient: signal pink → */
+    --g2: #ff8a1a;           /* → hot orange */
+    --grad: linear-gradient(100deg, var(--g1), var(--g2));
+    --f-display: 'Familjen Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --f-mono: 'Martian Mono', ui-monospace, 'Cascadia Mono', monospace;
+    --ease: cubic-bezier(.2,.8,.2,1);
   }
-  to {
-    background-position: 100% 50%;
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e0c0e; --fg: #f4f1f3; --mute: #9a929e; --line: #2a252b; --panel: #171417;
+      --accent: #ff3d9a; --accent-ink: #ff6fb3; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e0c0e; --fg: #f4f1f3; --mute: #9a929e; --line: #2a252b; --panel: #171417;
+    --accent: #ff3d9a; --accent-ink: #ff6fb3; color-scheme: dark;
   }
 
-}
-		::-webkit-scrollbar {
-			width: 0;
-			/* Remove scrollbar space */
-			background: transparent;
-			/* Optional: just make scrollbar invisible */
-		}
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 400 17px/1.55 var(--f-display); -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--night); }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: var(--accent); color: #fff; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .mono { font: 400 .7rem/1.4 var(--f-mono); letter-spacing: .05em; text-transform: uppercase; }
+  h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.045em; text-wrap: balance; }
+  em { font-style: italic; font-weight: 500; color: var(--accent); }
 
-		body {
-			margin: 0;
-			background:
-				linear-gradient(skyblue,
-					transparent),
-				linear-gradient(0deg,
-					coral,
-					transparent),
-				linear-gradient(45deg,
-					limegreen,
-					transparent);
+  .wrap {
+    width: 100%; max-width: 1360px; margin: 0 auto;
+    padding-left: max(32px, env(safe-area-inset-left, 0px));
+    padding-right: max(72px, calc(env(safe-area-inset-right, 0px) + 56px));
+  }
+  @media (max-width: 760px) {
+    .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  }
 
-		}
+  /* ---------- scenes ---------- */
+  .scene { min-height: 100vh; min-height: 100svh; scroll-snap-align: start; position: relative; display: flex; align-items: center; overflow: hidden; }
+  .scene > .wrap { padding-block: 6.5rem 4.5rem; }
+  .night { background: var(--night); color: var(--on-night); }
+  .night em { color: var(--hot); }
+  .hero h1 em, .head h2 em, .contact h2 em, .manifesto .big em, .step .n {
+    background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em;
+  }
 
-		body:before {
-			content: '';
-			position: fixed;
-			top: 0;
-			bottom: 0;
-			height: 100%;
-			width: 100%;
-			z-index: -1;
-			background:
-				linear-gradient(limegreen,
-					transparent),
-				linear-gradient(90deg,
-					skyblue,
-					transparent),
-				linear-gradient(-90deg,
-					coral,
-					transparent);
-			background-blend-mode: screen;
+  /* scroll-driven reveal; static wherever unsupported */
+  @supports (animation-timeline: view()) {
+    .rv { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
+    .rv.d1 { animation-range: entry 6% cover 36%; }
+    .rv.d2 { animation-range: entry 12% cover 40%; }
+  }
+  @keyframes rv { from { opacity: 0; translate: 0 56px; } to { opacity: 1; translate: 0 0; } }
 
-			animation: blender 9s infinite;
-		}
+  /* ---------- logo ---------- */
+  .mark { display: block; overflow: visible; flex: none; }
+  .vcm { cursor: pointer; }
 
-		@keyframes blender {
-			0% {
-				filter: hue-rotate(10deg);
-			}
+  /* ---------- chrome: header follows the scene under it; scene index blends ---------- */
+  .top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50; color: var(--on-night); transition: color .35s;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .top::before { content: ""; position: absolute; inset: 0 0 -28px; z-index: -1; pointer-events: none; background: linear-gradient(color-mix(in srgb, var(--night) 70%, transparent), transparent); transition: opacity .35s; }
+  .top::after { content: ""; position: absolute; inset: 0 0 -28px; z-index: -1; pointer-events: none; background: linear-gradient(color-mix(in srgb, var(--bg) 80%, transparent), transparent); opacity: 0; transition: opacity .35s; }
+  .top.light { color: var(--fg); }
+  .top.light::before { opacity: 0; }
+  .top.light::after { opacity: 1; }
+  .top .wrap { display: flex; align-items: center; height: 72px; gap: 2rem; max-width: none; padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+  .logo { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; font-weight: 700; font-size: 1.12rem; letter-spacing: -0.035em; }
+  .logo .mark { width: 22px; height: 22px; }
+  .top nav { display: flex; gap: 1.8rem; margin-left: auto; }
+  .top nav a { text-decoration: none; font-size: .92rem; opacity: .75; }
+  .top nav a:hover { opacity: 1; }
+  .top .talk { text-decoration: none; font-weight: 600; font-size: .92rem; border: 1px solid currentColor; padding: .55rem .95rem; }
+  .top .talk:hover { background: var(--grad); color: #fff; border-color: transparent; }
 
-			50% {
-				filter: hue-rotate(-10deg);
-			}
+  .index {
+    position: fixed; right: max(20px, calc(env(safe-area-inset-right, 0px) + 12px)); top: 50%; translate: 0 -50%;
+    z-index: 50; display: grid; gap: .3rem; color: #fff; mix-blend-mode: difference;
+  }
+  .index a { display: flex; align-items: center; justify-content: flex-end; gap: .7rem; text-decoration: none; padding: .25rem 0; }
+  .index span { font: 400 .62rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .06em; opacity: 0; translate: 6px 0; transition: opacity .25s, translate .25s; white-space: nowrap; }
+  .index i { width: 14px; height: 1px; background: currentColor; opacity: .5; transition: width .3s var(--ease), opacity .3s; }
+  .index a:hover span, .index a.on span { opacity: 1; translate: 0 0; }
+  .index a.on i { width: 32px; opacity: 1; }
 
-			100% {
-				filter: hue-rotate(10deg);
-			}
-		}
+  /* ---------- 1 · hero ---------- */
+  .hero { touch-action: pan-y; }
+  .hero-zone { height: 260vh; position: relative; scroll-snap-align: start; }
+  .hero-zone > .hero { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; }
+  .hero-zone.static { height: auto; }
+  .hero-zone.static > .hero { position: relative; height: auto; min-height: 100svh; }
+  #strings { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero > .wrap { position: relative; pointer-events: none; align-self: stretch; display: flex; flex-direction: column; justify-content: flex-end; padding-block: 7rem 6.5rem; }
+  .hero h1 { font-size: clamp(3.2rem, 10.4vw, 10.5rem); line-height: .86; letter-spacing: -0.064em; max-width: 11ch; transition: opacity .28s, translate .28s; }
+  .hero h1.swap, .hero .lead.swap, .hero-tag.swap { opacity: 0; translate: 0 -.12em; }
+  .hero-tag { display: block; color: var(--hot); margin-bottom: 1.4rem; transition: opacity .28s, translate .28s; }
+  .hero .lead { transition: opacity .28s, translate .28s; }
+  .hero .gl { z-index: 1; }
+  .hero > .wrap { z-index: 2; }
+  .hero.static .gl { display: none; }
+  .ticker .parts { gap: .4rem 1.4rem; }
+  .hero h1 .w { display: inline-block; animation: word 1s var(--ease) both; }
+  .hero h1 .w:nth-child(2) { animation-delay: .1s; }
+  .hero h1 .w:nth-child(3) { animation-delay: .2s; }
+  .hero h1 em { padding-right: .06em; }
+  @keyframes word { from { opacity: 0; translate: 0 .35em; } to { opacity: 1; translate: 0 0; } }
+  .hero-foot { display: flex; justify-content: space-between; align-items: end; gap: 2rem; flex-wrap: wrap; margin-top: 2.4rem; }
+  .lead { font-size: clamp(1.15rem, 1.7vw, 1.45rem); line-height: 1.35; max-width: 30ch; margin: 0; letter-spacing: -0.015em; }
+  .hint { color: var(--on-night-mute); display: flex; gap: .6rem; align-items: center; }
+  .hint i { display: inline-block; width: 22px; height: 1px; background: var(--hot); }
+  .ticker {
+    position: absolute; left: 0; right: 0; bottom: 0; border-top: 1px solid rgba(255,255,255,.1);
+    color: var(--on-night-mute); pointer-events: none;
+  }
+  .ticker .wrap { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1rem; flex-wrap: wrap; }
+  .ticker b { color: var(--on-night); font-weight: 400; }
 
-		#container {
-			padding: 10% 30%;
-		}
+  /* ---------- the build: a pinned scene where the mark assembles from its three parts ---------- */
+  .story { height: 440vh; position: relative; background: var(--night); color: var(--on-night); scroll-snap-align: start; }
+  .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+  .stage::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px) 0 0 / 48px 48px;
+    mask-image: radial-gradient(70% 70% at 62% 50%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(70% 70% at 62% 50%, #000 30%, transparent 80%);
+  }
+  .gl { position: absolute; inset: 0; touch-action: pan-y; cursor: grab; }
+  .gl:active { cursor: grabbing; }
+  .gl canvas { width: 100%; height: 100%; display: block; }
+  .story-ui { position: relative; height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding-block: 6.2rem 2.6rem; pointer-events: none; }
+  .story-head { display: flex; justify-content: space-between; gap: 1rem; color: var(--on-night-mute); }
+  .story-head .drag { color: var(--on-night); }
+  .panels { position: relative; align-self: center; width: min(31rem, 100%); min-height: 17rem; }
+  .panel { position: absolute; left: 0; top: 0; display: grid; gap: 1rem; opacity: 0; translate: 0 26px; transition: opacity .5s, translate .7s var(--ease); }
+  .panel.on { opacity: 1; translate: 0 0; }
+  .panel .mono { color: var(--hot); }
+  .panel h2 { font-size: clamp(2.4rem, 4.8vw, 4.6rem); line-height: .9; letter-spacing: -0.062em; }
+  .panel h2 em { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  .panel p { margin: 0; color: var(--on-night-mute); max-width: 36ch; font-size: 1.05rem; }
+  .parts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .8rem 1.8rem; color: var(--on-night-mute); }
+  .parts li { display: flex; align-items: center; gap: .6rem; transition: color .4s; }
+  .parts i { width: 28px; height: 2px; background: rgba(255,255,255,.2); transition: background .4s; }
+  .parts li.in { color: var(--on-night); }
+  .parts li.in i { background: var(--grad); }
+  /* without WebGL (or with reduced motion) the scene is a plain, readable section */
+  .story.static { height: auto; }
+  .story.static .stage { position: relative; height: auto; }
+  .story.static .gl, .story.static .drag { display: none; }
+  .story.static .story-ui { grid-template-rows: auto; gap: 2.5rem; padding-block: 6rem 4rem; }
+  .story.static .panels { width: 100%; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 2.5rem; }
+  .story.static .panel { position: relative; opacity: 1; translate: none; }
+  @media (max-width: 760px) {
+    .panels { align-self: end; min-height: 15rem; }
+    .story-ui { padding-block: 5.2rem 1.6rem; }
+    .stage::after { content: ""; position: absolute; inset: 45% 0 0; pointer-events: none; background: linear-gradient(transparent, var(--night) 55%); }
+    .story-ui { z-index: 1; }
+    .story.static .panels { grid-template-columns: minmax(0,1fr); }
+  }
 
-		h1 {
-			font: 900 11em/.85 'Source Sans Pro', Arial, sans-serif;
-			text-transform: uppercase;
-			color: #fff;
-			text-align: left;
-			letter-spacing: -8px;
-			text-shadow: 1px 1px 1px #66644d,
-				2px 2px 1px #66644d,
-				3px 3px 1px #66644d,
-				4px 4px 1px #66644d,
-				5px 5px 1px #66644d,
-				6px 6px 1px #66644d,
-				7px 7px 1px #66644d,
-				8px 8px 1px #66644d,
-				9px 9px 1px #66644d,
-				10px 10px 1px #66644d,
-				11px 11px 1px #66644d,
-				12px 12px 1px #66644d,
-				13px 13px 1px #66644d,
-				14px 14px 1px #66644d,
-				15px 15px 1px #66644d,
-				16px 16px 1px #66644d,
-				17px 17px 1px #66644d,
-				18px 18px 1px #66644d,
-				19px 19px 1px #66644d,
-				20px 20px 1px #66644d,
-				21px 21px 1px #66644d,
-				22px 22px 1px #66644d,
-				23px 23px 1px #66644d,
-				24px 24px 1px #66644d,
-				25px 25px 1px #66644d,
-				26px 26px 1px #66644d,
-				27px 27px 1px #66644d,
-				28px 28px 1px #66644d,
-				29px 29px 1px #66644d,
-				30px 30px 1px #66644d;
+  /* ---------- 2 · manifesto ---------- */
+  .manifesto .big {
+    font-size: clamp(2.2rem, 5.4vw, 5.4rem); line-height: 1; letter-spacing: -0.055em; font-weight: 600; margin: 0; max-width: 17ch; text-wrap: balance;
+  }
+  .manifesto .big span { color: var(--mute); }
+  .manifesto .label { color: var(--accent-ink); margin-bottom: 2rem; display: block; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); margin-top: 4.5rem; border-top: 2px solid var(--fg); }
+  .stats div { padding: 1.2rem 1.2rem 0 0; }
+  .stats div + div { padding-left: 1.2rem; border-left: 1px solid var(--line); }
+  .stats b { display: block; font-size: clamp(2.4rem, 4.4vw, 4rem); font-weight: 500; letter-spacing: -0.06em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stats span { display: block; margin-top: .6rem; color: var(--mute); }
 
-			-webkit-transform: skewY(-25deg);
-			-moz-transform: skewY(-25deg);
-			transform: skewY(-25deg);
+  /* ---------- 3–6 · venture scenes ---------- */
+  .venture { --c: #fff; }
+  .venture .backdrop {
+    position: absolute; inset: -10%; background-image: var(--img); background-size: cover; background-position: top center;
+    filter: blur(60px) saturate(1.3); opacity: .38; transform: scale(1.1);
+  }
+  .venture::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 90% at 85% 50%, transparent 30%, var(--night) 78%); pointer-events: none; }
+  .venture > .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.25fr); gap: 4rem; align-items: center; }
+  .v-text { display: grid; gap: 1.4rem; align-content: center; min-width: 0; }
+  .v-meta { display: flex; gap: 1.2rem; align-items: center; color: var(--on-night-mute); flex-wrap: wrap; }
+  .v-meta .num { color: var(--on-night); }
+  .v-meta .dot { display: inline-flex; align-items: center; gap: .5rem; }
+  .v-meta .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 25%, transparent); }
+  .v-name { font-size: clamp(3rem, 7vw, 7rem); line-height: .86; letter-spacing: -0.065em; }
+  .v-tag { font-size: clamp(1.3rem, 2.2vw, 1.9rem); line-height: 1.15; letter-spacing: -0.03em; font-weight: 500; margin: 0; }
+  .v-tag em { color: var(--c); }
+  .v-text p.desc { margin: 0; color: var(--on-night-mute); max-width: 44ch; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; border-top: 1px solid rgba(255,255,255,.14); padding-top: 1.2rem; }
+  .facts b { display: block; font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .facts span { display: block; margin-top: .45rem; color: var(--on-night-mute); }
+  .visit {
+    justify-self: start; display: inline-flex; gap: .8rem; align-items: center; text-decoration: none; font-weight: 600;
+    padding: .9rem 1.3rem; background: var(--on-night); color: var(--night); transition: background .25s, color .25s;
+  }
+  .visit:hover { background: var(--c); color: #fff; }
+  .visit .arr { transition: transform .25s; }
+  .visit:hover .arr { transform: translate(3px, -3px); }
 
-			-webkit-backface-visibility: hidden;
-		}
+  .screen { position: relative; min-width: 0; }
+  .browser {
+    border-radius: 12px; overflow: hidden; background: #1a171a;
+    box-shadow: 0 60px 120px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #1f1b1f; }
+  .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #3b343b; }
+  .browser .bar span { margin: 0 auto; font: 400 .62rem/1 var(--f-mono); color: #8d848f; background: #2a252a; padding: .35rem 1.2rem; border-radius: 6px; }
+  .film { height: min(64svh, 600px); overflow: hidden; position: relative; }
+  .film img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; animation: film 34s ease-in-out infinite alternate; }
+  .screen:hover .film img, .screen:hover .pocket img { animation-play-state: paused; }
+  @keyframes film { 0%, 6% { object-position: 50% 0%; } 94%, 100% { object-position: 50% 100%; } }
+  .rec { position: absolute; left: 14px; bottom: 14px; display: inline-flex; gap: .5rem; align-items: center; background: rgba(13,11,13,.8); color: var(--on-night); padding: .45rem .7rem; backdrop-filter: blur(6px); }
+  .rec::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--hot); animation: blink 1.4s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+  .pocket {
+    position: absolute; right: -4%; bottom: -8%; width: clamp(110px, 15vw, 210px); border-radius: 26px; overflow: hidden;
+    border: 6px solid #1f1b1f; box-shadow: 0 40px 80px -20px rgba(0,0,0,.9); background: #1f1b1f;
+  }
+  .pocket .film { height: auto; aspect-ratio: 390 / 800; }
+  .pocket .film img { animation-duration: 26s; animation-delay: -6s; }
 
-		#title {
-			padding-top: 20%;
-			padding-bottom: 20%;
-		}
+  /* ---------- model: select → own → allocate → raise ---------- */
+  .model-steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); border-top: 2px solid var(--fg); }
+  .ms { padding: 1.4rem 1.6rem 0 0; display: grid; gap: .8rem; align-content: start; }
+  .ms + .ms { padding-left: 1.6rem; border-left: 1px solid var(--line); }
+  .ms .n { font: 400 .72rem/1 var(--f-mono); color: var(--accent-ink); }
+  .ms h3 { font-size: clamp(2.2rem, 3.8vw, 3.6rem); line-height: .95; letter-spacing: -0.06em; }
+  .ms:last-child h3 { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; justify-self: start; }
+  .ms p { margin: 0; color: var(--mute); }
+  .ms .proof { color: var(--fg); padding-top: .8rem; border-top: 1px solid var(--line); }
+  .rf {
+    margin-top: 3rem; display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 1.6rem; align-items: center;
+    padding: 1rem; border: 1px solid var(--line); text-decoration: none; transition: border-color .25s;
+  }
+  .rf:hover { border-color: var(--fg); }
+  .rf img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
+  .rf b { display: block; font-size: 1.35rem; letter-spacing: -0.03em; font-weight: 600; }
+  .rf p { margin: .3rem 0 0; color: var(--mute); max-width: 60ch; }
+  .rf .go { font-weight: 600; white-space: nowrap; padding-right: .6rem; }
+  .rf:hover .go { color: var(--accent-ink); }
 
-		h2 {
-			font: 900 6em/.85 'Source Sans Pro', Arial, sans-serif;
-			text-transform: uppercase;
-			color: #fff;
-			text-align: left;
-			letter-spacing: -5px;
-			text-shadow: 1px 1px 1px #66644d,
-				2px 2px 1px #66644d,
-				3px 3px 1px #66644d,
-				4px 4px 1px #66644d,
-				5px 5px 1px #66644d,
-				6px 6px 1px #66644d,
-				7px 7px 1px #66644d,
-				8px 8px 1px #66644d,
-				9px 9px 1px #66644d,
-				10px 10px 1px #66644d,
-				11px 11px 1px #66644d,
-				12px 12px 1px #66644d,
-				13px 13px 1px #66644d,
-				14px 14px 1px #66644d,
-				15px 15px 1px #66644d,
-				16px 16px 1px #66644d,
-				17px 17px 1px #66644d,
-				18px 18px 1px #66644d,
-				19px 19px 1px #66644d,
-				20px 20px 1px #66644d,
-				21px 21px 1px #66644d,
-				22px 22px 1px #66644d,
-				23px 23px 1px #66644d,
-				24px 24px 1px #66644d,
-				25px 25px 1px #66644d;
+  /* ---------- 7 · capabilities ---------- */
+  .head { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 2rem; margin-bottom: 3.5rem; }
+  .head .mono { color: var(--accent-ink); padding-top: 1rem; }
+  .night .head .mono { color: var(--hot); }
+  .head h2 { font-size: clamp(2.4rem, 5.8vw, 5.2rem); line-height: .9; letter-spacing: -0.06em; max-width: 13ch; }
+  .head p { grid-column: 2; margin: 1.3rem 0 0; color: var(--mute); max-width: 52ch; font-size: 1.08rem; }
+  .caps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2.5rem; }
+  .cap { display: grid; gap: .9rem; align-content: start; padding-top: 1.2rem; border-top: 2px solid var(--fg); }
+  .cap .mono { color: var(--mute); }
+  .cap h3 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); line-height: 1; letter-spacing: -0.045em; }
+  .cap p { margin: 0; color: var(--mute); }
+  .cap ul { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; }
+  .cap li { padding: .55rem 0; border-top: 1px solid var(--line); font-size: .98rem; }
+  .cap a { color: var(--accent-ink); }
 
-			-webkit-transform: skewY(-25deg);
-			-moz-transform: skewY(-25deg);
-			transform: skewY(-25deg);
+  /* ---------- 8 · fee ↔ equity ---------- */
+  .engage { background: var(--panel); }
+  .band-wrap { position: relative; padding-top: 2.4rem; }
+  .band-ends { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; gap: 1rem; color: var(--mute); }
+  .engage .gl.band3d { position: relative; inset: auto; z-index: 3; height: clamp(84px, 8vw, 120px); margin-top: .6rem; }
+  /* the canvas overhangs the band so the block can turn in 3D without being clipped; only the band takes the drag */
+  .engage-gl { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+  .engage .stop::before { display: none; }
+  .engage.static .band3d { display: none; }
+  .stops { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2.5rem; }
+  .stop { position: relative; padding-top: 2.2rem; display: grid; gap: .8rem; align-content: start; }
+  .stop::before { content: ""; position: absolute; top: -84px; width: 3px; height: calc(84px + 1.6rem); background: var(--panel); }
+  .stop:nth-child(1)::before { left: 0; }
+  .stop:nth-child(2)::before { left: calc(50% - 1.5px); }
+  .stop:nth-child(3)::before { right: 0; }
+  .stop:nth-child(2) { text-align: center; justify-items: center; }
+  .stop:nth-child(3) { text-align: right; justify-items: end; }
+  .stop h3 { font-size: clamp(2.2rem, 3.8vw, 3.2rem); letter-spacing: -0.055em; line-height: 1; }
+  .stop .split { color: var(--accent-ink); }
+  .stop p { margin: 0; color: var(--mute); max-width: 32ch; }
+  .stop .for { font-size: .95rem; color: var(--fg); max-width: 30ch; }
 
-			-webkit-backface-visibility: hidden;
-		}
+  /* ---------- 9 · start ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); border-top: 2px solid var(--fg); }
+  .step { padding: 1.4rem 1.5rem 0 0; display: grid; gap: .7rem; align-content: start; }
+  .step + .step { padding-left: 1.5rem; border-left: 1px solid var(--line); }
+  .step .n { font-size: clamp(3rem, 5vw, 4.6rem); font-weight: 500; letter-spacing: -0.07em; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .step h3 { font-size: 1.4rem; letter-spacing: -0.03em; }
+  .step p { margin: 0; color: var(--mute); font-size: .98rem; }
+  .step .mono { color: var(--mute); }
 
-		h3 {
-			font: 900 5em/.85 'Source Sans Pro', Arial, sans-serif;
-			text-transform: uppercase;
-			color: #fff;
-			text-align: left;
-			letter-spacing: -5px;
-			text-shadow: 1px 1px 1px #66644d,
-				2px 2px 1px #66644d,
-				3px 3px 1px #66644d,
-				4px 4px 1px #66644d,
-				5px 5px 1px #66644d,
-				6px 6px 1px #66644d,
-				7px 7px 1px #66644d,
-				8px 8px 1px #66644d,
-				9px 9px 1px #66644d,
-				10px 10px 1px #66644d,
-				11px 11px 1px #66644d,
-				12px 12px 1px #66644d,
-				13px 13px 1px #66644d,
-				14px 14px 1px #66644d,
-				15px 15px 1px #66644d,
-				16px 16px 1px #66644d,
-				17px 17px 1px #66644d,
-				18px 18px 1px #66644d,
-				19px 19px 1px #66644d,
-				20px 20px 1px #66644d;
+  /* ---------- 10 · contact ---------- */
+  .contact > .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 2rem; align-items: center; }
+  .contact-text { display: grid; gap: 2.4rem; min-width: 0; }
+  .contact .gl-foot { position: relative; inset: auto; width: 100%; max-width: 560px; aspect-ratio: 1; justify-self: end; }
+  .contact.static > .wrap { grid-template-columns: minmax(0, 1fr); }
+  .contact.static .gl-foot { display: none; }
+  .foot-hint { position: absolute; left: 0; right: 0; bottom: 4%; text-align: center; color: var(--on-night-mute); pointer-events: none; }
+  @media (max-width: 1000px) {
+    .contact > .wrap { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    .contact .gl-foot { order: -1; width: min(100%, 320px); justify-self: center; }
+  }
+  .contact h2 { font-size: clamp(2.8rem, 8vw, 7.6rem); line-height: .86; letter-spacing: -0.066em; max-width: 11ch; }
+  .mailrow { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; }
+  .mail {
+    font-size: clamp(1.5rem, 4.4vw, 3.6rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1;
+    text-decoration: none; border-bottom: 3px solid var(--g1); border-image: var(--grad) 1; padding-bottom: .1em; overflow-wrap: anywhere;
+  }
+  .mail:hover { color: var(--hot); }
+  .copy { font: 400 .7rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .05em; padding: .75rem 1rem; background: transparent; color: var(--on-night); border: 1px solid var(--on-night); cursor: pointer; }
+  .copy:hover { background: var(--on-night); color: var(--night); }
+  .contact p { margin: 0; color: var(--on-night-mute); max-width: 44ch; }
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; border-top: 1px solid rgba(255,255,255,.1); color: var(--on-night-mute); }
+  .foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 2rem; padding-block: 1.2rem; }
+  .foot nav { display: flex; flex-wrap: wrap; gap: 1.4rem; }
+  .foot a { text-decoration: none; }
+  .foot a:hover { color: var(--on-night); }
 
-			-webkit-transform: skewY(-25deg);
-			-moz-transform: skewY(-25deg);
-			transform: skewY(-25deg);
-
-			-webkit-backface-visibility: hidden;
-		}
-
-		h4,
-		input,
-		label,
-		textarea {
-			font: 900 3em/.85 'Source Sans Pro', Arial, sans-serif;
-			text-transform: uppercase;
-			color: #fff;
-			text-align: left;
-			margin-bottom: 30%;
-			letter-spacing: -2px;
-			text-shadow: 1px 1px 1px #66644d,
-				2px 2px 1px #66644d,
-				3px 3px 1px #66644d,
-				4px 4px 1px #66644d,
-				5px 5px 1px #66644d,
-				6px 6px 1px #66644d,
-				7px 7px 1px #66644d,
-				8px 8px 1px #66644d,
-				9px 9px 1px #66644d,
-				10px 10px 1px #66644d,
-				11px 11px 1px #66644d,
-				12px 12px 1px #66644d,
-				13px 13px 1px #66644d,
-				14px 14px 1px #66644d,
-				15px 15px 1px #66644d;
-
-			-webkit-transform: skewY(-25deg);
-			-moz-transform: skewY(-25deg);
-			transform: skewY(-25deg);
-
-			-webkit-backface-visibility: hidden;
-		}
-
-		.hundra {
-			font-size: 1.6em;
-		}
-
-
-
-		@media only screen and (max-width: 767px) {
-
-			#container {
-				margin: 10px;
-				padding: unset;
-				font-size: 2.3vw;
-			}
-
-			#logo {
-				top: 0;
-				background-size: 10%;
-			}
-		}
-
-		input,
-		span,
-		label,
-		textarea {
-			display: block;
-			margin: 0px;
-			padding: 5px;
-			border: none;
-			background: transparent;
-		}
-
-		input {
-			border-bottom: 2px dashed white;
-		}
-
-		textarea:focus,
-		input:focus {
-			outline: 0;
-		}
-
-		/* Question */
-
-		input.question,
-		textarea.question {
-			transition: padding-top 0.2s ease, margin-top 0.2s ease;
-			overflow-x: hidden;
-			margin-left: 10px;
-			/* Hack to make "rows" attribute apply in Firefox. */
-		}
-
-		/* Underline and Placeholder */
-
-		input.question+label,
-		textarea.question+label {
-			display: block;
-			position: relative;
-			white-space: nowrap;
-			padding: 0;
-			margin: 0;
-			-webkit-transition: width 0.4s ease;
-			transition: width 0.4s ease;
-			height: 0px;
-		}
-
-		input.question:focus+label,
-		textarea.question:focus+label {
-			width: 100%;
-		}
-
-		input.question:valid+label,
-		textarea.question:valid+label {}
-
-		input.question:invalid,
-		textarea.question:invalid {
-			box-shadow: none;
-			color: white;
-		}
-
-		input.question+label>span,
-		textarea.question+label>span {
-			margin: 0;
-			position: absolute;
-			left: 0px;
-			z-index: -1;
-			-webkit-transition: top 0.2s ease, color 0.2s ease;
-			transition: top 0.2s ease, color 0.2s ease;
-		}
-
-		input[type="submit"] {
-			-webkit-transition: opacity 0.2s ease, margin-top 0.2 ease, font-size 0.2 ease;
-			transition: opacity 0.2s ease, margin-top 0.2 ease, font-size 0.2 ease;
-			display: block;
-			opacity: 0;
-			margin: 0px;
-			cursor: pointer;
-			background: transparent;
-			border: none;
-			padding: 14px;
-
-		}
-
-		input.question:valid~input[type="submit"],
-		textarea.question:valid~input[type="submit"] {
-			-webkit-animation: appear 1s forwards;
-			animation: appear 1s forwards;
-		}
-
-		input[type="submit"]:hover {
-			color: #dedede;
-
-		}
-
-		input.question:invalid~input[type="submit"],
-		textarea.question:invalid~input[type="submit"] {
-			display: none;
-		}
-
-		@-webkit-keyframes appear {
-			100% {
-				opacity: 1;
-				background: transparent;
-				margin-top: 200px;
-				font-size: 6rem;
-			}
-		}
-
-		@keyframes appear {
-			100% {
-				opacity: 1;
-				background: transparent;
-				margin-top: 200px;
-				font-size: 6rem;
-			}
-		}
-
-		#in {
-			background-image: url("img/linkedin.png") no-repeat;
-			width: 200px;
-			position: fixed;
-			right: 5%;
-			top: 2%;
-		}
-	</style>
-	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
+  /* ---------- responsive ---------- */
+  @media (max-width: 1000px) {
+    .top nav { display: none; }
+    .top .talk { margin-left: auto; }
+    .venture > .wrap { grid-template-columns: minmax(0,1fr); gap: 2.5rem; }
+    .film { height: 52svh; }
+    .head { grid-template-columns: minmax(0,1fr); gap: .8rem; }
+    .head .mono { padding-top: 0; }
+    .head p { grid-column: 1; }
+    .caps { grid-template-columns: minmax(0,1fr); }
+    .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .stats div:nth-child(3) { padding-left: 0; border-left: 0; }
+    .stats div { padding-bottom: 1.4rem; }
+    .stops { grid-template-columns: minmax(0,1fr); gap: 2rem; margin-top: 2rem; }
+    .stop, .stop:nth-child(2), .stop:nth-child(3) { text-align: left; justify-items: start; padding-top: 0; }
+    .stop::before { display: none; }
+    .steps, .model-steps { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 2rem; }
+    .ms:nth-child(3) { padding-left: 0; border-left: 0; }
+    .rf { grid-template-columns: 140px minmax(0, 1fr); }
+    .rf .go { grid-column: 2; }
+    .step:nth-child(3) { padding-left: 0; border-left: 0; }
+  }
+  @media (max-width: 760px) {
+    .index { display: none; }
+    .scene > .wrap { padding-block: 5.5rem 4.5rem; }
+    .hero > .wrap { padding-block: 6rem 7rem; }
+    .pocket { right: 0; }
+  }
+  @media (max-width: 520px) {
+    .steps, .model-steps { grid-template-columns: minmax(0,1fr); }
+    .ms + .ms { padding-left: 0; border-left: 0; }
+    .rf { grid-template-columns: minmax(0, 1fr); }
+    .rf .go { grid-column: 1; }
+    .step + .step { padding-left: 0; border-left: 0; }
+    .facts b { font-size: 1.3rem; }
+    .ticker .hide-s { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
 <body>
-	<div id="logo"></div>
-	<div id="in"></div>
-	<div id="container">
-		<h1 id="title"><span data-aos="zoom-in" data-aos-delay="300">Vibrant
-				Capital</span>
-		</h1>
-		<h2><span data-aos="zoom-in" data-aos-delay="600"></span></h2><span class="hundra"></span>
-		<h2><span data-aos="fade-left">
-				Overhaul your<span class="hundra">business</span></h2>
-				<h2><span data-aos="fade-right">interim bizniz, product & dev coaching made extraordinaire
-				</span>
-		</h2>
-		<h4><span data-aos="fade-right">driving change that enables growth by adding the holistic and often missed details in an all inclusive package
-			</span>
-			<h2>
-				<span class="hundra" data-aos="fade-left">industry experts</span></h2>
-			<p></p>
-			<h4><span data-aos="fade-right">adding decades of hands on experience in startups, scaleups and enterprise wide industry transformations</span>
-				<p></p><span data-aos="fade-left">helping you tune or fine-tune your organisation to enable your full potential and finding the missing pieces to success</span>
-			</h4>
-			<h2><span class="hundra" data-aos="fade-left">uniquely offered</span><span data-aos="fade-right">as advisory or interim roles in sweat equity</span>
-			</h2>
-			<h2><span data-aos="fade-left">sounds interesting?</span></h2>
-			<h4><span data-aos="fade-right">contact us to find out if & how we can support you in your journey.</span>
-			</h4>
-			<form action="https://formsubmit.co/hello@vibrantcapital.eu" method="POST">
-				<input type="email" name="email" class="question" id="nme" required autocomplete="off" />
-				<input type="hidden" name="_next" value="https://vibrantcapital.eu">
-				<input type="hidden" name="_subject" value="New website submission">
-				<label for="nme"><span>RFC by submitting your email</span></label>
-				<input type="submit" value="Submit" />
-			</form>
-			<span style="padding: 150px"></span>
-	</div>
-</body>
-<script>
-	AOS.init({
-		disable: 'mobile'
-	});
-</script>
 
+<!-- the mark: an X without its lower-left arm, cut by one vertical and one horizontal line. V on top, an open C on the right.
+     The parts sit in a mask over a fixed gradient, so the colour stays put while they spin. -->
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#hero" aria-label="Vibrant Capital, back to top">
+      <svg class="mark vcm " viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="vg-head" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff1f8e"></stop><stop offset="1" stop-color="#ff8a1a"></stop></linearGradient><mask id="vm-head" maskUnits="userSpaceOnUse" x="-12" y="-12" width="64" height="64"><g class="spin" fill="#fff"><polygon points="0.00,5.66 5.66,0.00 19.20,13.54 19.20,19.20 13.54,19.20"></polygon><polygon points="20.80,13.54 34.34,0.00 40.00,5.66 26.46,19.20 20.80,19.20"></polygon><polygon points="20.80,20.80 26.46,20.80 40.00,34.34 34.34,40.00 20.80,26.46"></polygon></g></mask></defs><rect x="-12" y="-12" width="64" height="64" fill="url(#vg-head)" mask="url(#vm-head)"></rect></svg>
+      Vibrant Capital
+    </a>
+    <nav aria-label="Main">
+      <a href="#model">How we work</a>
+      <a href="#engage">Engagement</a>
+    </nav>
+    <a class="talk" href="#contact">Let's talk</a>
+  </div>
+</header>
+
+<nav class="index" aria-label="Scenes">
+  <a href="#hero"><span>Start</span><i></i></a>
+  <a href="#thesis"><span>Why we exist</span><i></i></a>
+  <a href="#model"><span>How we work</span><i></i></a>
+  <a href="#do"><span>What we do</span><i></i></a>
+  <a href="#engage"><span>Engagement</span><i></i></a>
+  <a href="#contact"><span>Contact</span><i></i></a>
+</nav>
+
+<main>
+  <!-- 1 -->
+  <div class="hero-zone night" id="hero">
+  <section class="scene night hero">
+    <canvas id="strings" aria-hidden="true"></canvas>
+    <div class="gl" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="hero-tag mono" id="hero-tag">Vibrant Capital</span>
+      <h1 id="hero-h1">Funding, allocated where it <em>counts.</em></h1>
+      <div class="hero-foot">
+        <p class="lead" id="hero-lead">We select a few companies, take ownership, and help them raise capital by putting the right resources in the right place, fast.</p>
+        <span class="hint mono"><i></i>Drag the mark to rotate · tap to spin</span>
+      </div>
+    </div>
+    <div class="ticker mono">
+      <div class="wrap">
+        <span><b>3</b> portfolio companies · <b>1</b> build company</span>
+        <ol class="parts hide-s" aria-label="Parts of the mark"><li class="in"><i></i>Experience</li><li class="in"><i></i>Detail</li><li class="in"><i></i>Architecture</li></ol>
+        <span>Stockholm ↓ Scroll</span>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- 2 -->
+  <section class="scene manifesto" id="thesis">
+    <div class="wrap">
+      <span class="label mono rv">Why we exist</span>
+      <p class="big rv d1">We pick a few companies, take ownership and make them <em>investable,</em> fast. <span>Capital follows when the right people, product and proof sit in the right place.</span></p>
+      <div class="stats rv d2">
+        <div><b>3</b><span class="mono">Portfolio companies</span></div>
+        <div><b>6 mo</b><span class="mono">Seed to a $20M Series A</span></div>
+        <div><b>$10M+</b><span class="mono">Raised per scaleup we've backed</span></div>
+        <div><b>1</b><span class="mono">Build company in-house</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="scene" id="model">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="mono">How we work</span>
+        <h2>Select. Own. Allocate. <em>Raise.</em></h2>
+        <p>Most investors skip the work in between. We do it, and we do it fast, so the company raises sooner and on better terms.</p>
+      </div>
+      <div class="model-steps rv d1">
+        <div class="ms">
+          <span class="n">01</span>
+          <h3>Select</h3>
+          <p>We back a few companies a year in markets we know from the inside. Saying no is most of the job.</p>
+          <span class="mono proof">Fintech · Payments · AI</span>
+        </div>
+        <div class="ms">
+          <span class="n">02</span>
+          <h3>Own</h3>
+          <p>We take a real stake, in cash, sweat or both, and sit at the table as owners rather than advisers.</p>
+          <span class="mono proof">Equity · Board seat</span>
+        </div>
+        <div class="ms">
+          <span class="n">03</span>
+          <h3>Allocate</h3>
+          <p>We move people and money to the few things that change the valuation: product, regulation and go-to-market.</p>
+          <span class="mono proof">Weeks, not quarters</span>
+        </div>
+        <div class="ms">
+          <span class="n">04</span>
+          <h3>Raise</h3>
+          <p>With a live product, real numbers and a clear story, we take the company to investors and run the round with you.</p>
+          <span class="mono proof">Seed → Series A</span>
+        </div>
+      </div>
+      <a class="rf rv d2" href="https://rocketfactory.ai" target="_blank" rel="noopener">
+        <img src="img/rocket.jpg" alt="Rocket Factory website" loading="lazy">
+        <div><span class="mono">Our build company</span><b>Rocket Factory</b><p>When allocation means product, Rocket Factory builds it. A senior crew with AI agents takes it from idea to live in weeks, without hiring a team first.</p></div>
+        <span class="go">rocketfactory.ai ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="scene night venture" id="v-fliq" hidden style="--c:#2fbf71; --img:url('img/fliq.jpg')">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="v-text">
+        <div class="v-meta mono"><span class="num">Portfolio 01 / 03</span><span class="dot">Payments app</span><span>Waitlist open</span></div>
+        <h2 class="v-name rv">FLIQ</h2>
+        <p class="v-tag rv d1">Your money, <em>at your pace.</em></p>
+        <p class="desc rv d1">Accounts, invoices and payments in one place. Pay straight from the bank account over open banking, without handing out card details.</p>
+        <div class="facts rv d2">
+          <div><b>1,500+</b><span class="mono">Banks</span></div>
+          <div><b>31</b><span class="mono">EU/EEA countries</span></div>
+          <div><b>0</b><span class="mono">Card details</span></div>
+        </div>
+        <a class="visit" href="https://fliqpayments.com/en" target="_blank" rel="noopener">fliqpayments.com <span class="arr">↗</span></a>
+      </div>
+      <div class="screen rv d1">
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>fliqpayments.com/en</span></div>
+          <div class="film"><img src="img/fliq_full.jpg" alt="FLIQ website, scrolling through invoice payments and the app"></div>
+        </div>
+        <div class="pocket"><div class="film"><img src="img/fliq_m_full.jpg" alt="FLIQ website on a phone"></div></div>
+        <span class="rec mono">Live site</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="scene night venture" id="v-tppval" hidden style="--c:#19b56c; --img:url('img/tppvalidation.jpg')">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="v-text">
+        <div class="v-meta mono"><span class="num">Portfolio 02 / 03</span><span class="dot">Bank infrastructure</span><span>● Live · v5.1</span></div>
+        <h2 class="v-name rv">TPP Validation</h2>
+        <p class="v-tag rv d1">The verdict <em>at your gate.</em></p>
+        <p class="desc rv d1">Real-time eIDAS certificate and NCA register checks for banks' regulated APIs. Approve or deny every third party in milliseconds, with push events when a licence changes.</p>
+        <div class="facts rv d2">
+          <div><b>78 ms</b><span class="mono">Median verdict</span></div>
+          <div><b>99.99%</b><span class="mono">Triple-cloud SLA</span></div>
+          <div><b>30</b><span class="mono">Jurisdictions</span></div>
+        </div>
+        <a class="visit" href="https://tppvalidation.com" target="_blank" rel="noopener">tppvalidation.com <span class="arr">↗</span></a>
+      </div>
+      <div class="screen rv d1">
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>tppvalidation.com</span></div>
+          <div class="film"><img src="img/tppval_full.jpg" alt="TPP Validation website, scrolling through the verification pipeline and compliance coverage"></div>
+        </div>
+        <span class="rec mono">Live site</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="scene night venture" id="v-tppv" hidden style="--c:#ff7a1a; --img:url('img/tppv.jpg')">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="v-text">
+        <div class="v-meta mono"><span class="num">Portfolio 03 / 03</span><span class="dot">Developer tooling</span><span>● Live · free tier</span></div>
+        <h2 class="v-name rv">tppv.dev</h2>
+        <p class="v-tag rv d1">Validation for developers <em>and agents.</em></p>
+        <p class="desc rv d1">The CLI, MCP server and gateway plugins around TPP Validation. Generate enforcement for Kong, Apigee or AWS API Gateway, or let an AI agent check a TPP for you.</p>
+        <div class="facts rv d2">
+          <div><b>4</b><span class="mono">API · CLI · MCP · Web</span></div>
+          <div><b>3</b><span class="mono">Gateway targets</span></div>
+          <div><b>€0</b><span class="mono">To start</span></div>
+        </div>
+        <a class="visit" href="https://tppv.dev" target="_blank" rel="noopener">tppv.dev <span class="arr">↗</span></a>
+      </div>
+      <div class="screen rv d1">
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>tppv.dev</span></div>
+          <div class="film"><img src="img/tppv_full.jpg" alt="tppv.dev website, scrolling from the pixel hero through the verification pipeline"></div>
+        </div>
+        <span class="rec mono">Live site</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="scene" id="do">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="mono">What we do</span>
+        <h2>Three ways we <em>move</em> a company.</h2>
+        <p>Senior operators who have built, run and raised for companies themselves. No hand-offs to juniors, no decks without a product behind them.</p>
+      </div>
+      <div class="caps rv d1">
+        <div class="cap">
+          <span class="mono">Select &amp; own</span>
+          <h3>Ownership in a few companies we believe in.</h3>
+          <p>We choose carefully and commit fully, with equity on the line and a seat at the table.</p>
+          <ul><li>Equity and sweat-equity deals</li><li>Board and advisory seats</li><li>Co-founding new ventures</li></ul>
+        </div>
+        <div class="cap">
+          <span class="mono">Allocate &amp; lead</span>
+          <h3>Resources where they move the valuation.</h3>
+          <p>Interim leadership and build capacity, placed exactly where the company is stuck. Product is built by <a href="https://rocketfactory.ai" target="_blank" rel="noopener">Rocket Factory</a>.</p>
+          <ul><li>Interim CEO, CTO and CPO</li><li>Product and build via Rocket Factory</li><li>Risk assessments and due diligence</li></ul>
+        </div>
+        <div class="cap">
+          <span class="mono">Raise &amp; scale</span>
+          <h3>Investor-ready, then funded.</h3>
+          <p>We sharpen the story, the numbers and the data room, then open our network and run the process with you.</p>
+          <ul><li>Equity story and financial model</li><li>Data room and due diligence prep</li><li>Investor introductions and round management</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="scene engage" id="engage">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="mono">How we engage</span>
+        <h2>Somewhere between fee and <em>equity.</em></h2>
+        <p>Every deal is built around ownership. You choose where on the scale we sit; the further right, the more we act as co-owners, and the more selective we are about saying yes.</p>
+      </div>
+      <div class="band-wrap rv d1">
+        <div class="band-ends mono"><span>100% fee</span><span class="hide-s">Drag to rotate · tap to spin</span><span>100% equity</span></div>
+        <div class="gl band3d" aria-hidden="true"></div>
+        <div class="stops">
+          <div class="stop">
+            <span class="mono split">Fee only</span>
+            <h3>Cash</h3>
+            <p>Fixed-scope sprints or ongoing advisory with clear deliverables and an end date.</p>
+            <p class="for">For companies that know what they need built or fixed.</p>
+          </div>
+          <div class="stop">
+            <span class="mono split">Reduced fee + equity</span>
+            <h3>Hybrid</h3>
+            <p>A lower rate plus a stake. For funded companies that want a partner with skin in the game.</p>
+            <p class="for">For post-seed teams scaling product or entering regulated markets.</p>
+          </div>
+          <div class="stop">
+            <span class="mono split">Equity only</span>
+            <h3>Sweat equity</h3>
+            <p>We take a stake and grow with you. Kept for a few missions a year.</p>
+            <p class="for">For founders with a sharp idea in a market we know.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="scene night contact" id="contact">
+    <div class="wrap">
+      <div class="contact-text">
+        <h2 class="rv d1">Building something worth <em>owning?</em></h2>
+        <div class="mailrow rv d2">
+          <a class="mail" id="mail" href="mailto:hello@vibrantcapital.se">hello@vibrantcapital.se</a>
+          <button class="copy" id="copy" type="button">Copy address</button>
+        </div>
+        <p>Tell us about the company, the round you are planning and where you are stuck. A few lines is enough; we reply within one working day.</p>
+      </div>
+      <div class="gl gl-foot" aria-hidden="true"><span class="mono foot-hint">Drag to rotate · tap to spin</span></div>
+    </div>
+    <div class="foot mono">
+      <div class="wrap">
+        <span>© 2026 Vibrant Capital AB · Stockholm</span>
+        <nav aria-label="Ventures">
+          <a href="https://fliqpayments.com/en" target="_blank" rel="noopener">FLIQ</a>
+          <a href="https://tppvalidation.com" target="_blank" rel="noopener">TPP Validation</a>
+          <a href="https://tppv.dev" target="_blank" rel="noopener">tppv.dev</a>
+          <a href="https://rocketfactory.ai" target="_blank" rel="noopener">Rocket Factory · build company</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MODES = 6, DECAY = 2.2;
+  var now = function () { return performance.now() / 1000; };
+
+  // A plucked string is a sum of standing-wave modes, weighted by where it was plucked.
+  function pluck(s, u0, amp, W) {
+    u0 = Math.min(Math.max(u0, 0.04), 0.96);
+    var w = [], norm = 0;
+    for (var m = 1; m <= MODES; m++) { w.push(2 * Math.sin(m * Math.PI * u0) / (m * m * Math.PI * Math.PI * u0 * (1 - u0))); }
+    s.plucks.push({ w: w, amp: amp, t0: now() });
+    if (s.plucks.length > 4) s.plucks.shift();
+  }
+  function disp(s, u, t) {
+    var y = 0;
+    for (var k = 0; k < s.plucks.length; k++) {
+      var p = s.plucks[k], dt = t - p.t0, e = Math.exp(-DECAY * dt);
+      if (e < 0.004) continue;
+      for (var m = 1; m <= MODES; m++) y += p.amp * e * p.w[m - 1] * Math.sin(m * Math.PI * u) * Math.cos(2 * Math.PI * s.f * m * dt);
+    }
+    return y;
+  }
+  function energy(s, t) {
+    var e = 0;
+    for (var k = 0; k < s.plucks.length; k++) e = Math.max(e, s.plucks[k].amp * Math.exp(-DECAY * (t - s.plucks[k].t0)));
+    return e;
+  }
+
+  // ---------- hero string field ----------
+  var hero = document.querySelector('section.hero');
+  var cv = document.getElementById('strings'), ctx = cv.getContext('2d');
+  var W = 0, H = 0, strings = [], pull = null, MAIN = 0, hg = '#ff3d9a';
+
+  function layout() {
+    var r = hero.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.max(16, Math.round(H / 24)), old = strings;
+    strings = [];
+    for (var i = 0; i < n; i++) strings.push({ y: (i + 0.5) * H / n, plucks: (old[i] && old[i].plucks) || [], f: 1.6 + (i % 7) * 0.27 });
+    MAIN = Math.round(n * 0.26);
+    hg = ctx.createLinearGradient(0, 0, W, 0);
+    hg.addColorStop(0, '#ff1f8e'); hg.addColorStop(1, '#ff8a1a');
+  }
+
+  function draw() {
+    var t = now(), steps = Math.max(60, Math.round(W / 9));
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < strings.length; i++) {
+      var s = strings[i], e = energy(s, t), hot = Math.min(e / 16, 1);
+      ctx.beginPath();
+      if (pull && i === MAIN) {
+        // the opening move: one string drawn into the V of the mark
+        var k = Math.min((t - pull.t0) / pull.dur, 1), ease = 1 - Math.pow(1 - k, 3), d = pull.depth * ease;
+        ctx.moveTo(0, s.y); ctx.lineTo(pull.u * W, s.y + d); ctx.lineTo(W, s.y);
+        ctx.strokeStyle = hg; ctx.globalAlpha = 0.25 + 0.75 * ease; ctx.lineWidth = 1.2 + ease * 1.6; ctx.stroke();
+        ctx.globalAlpha = ease; ctx.fillStyle = '#f4f1f3';
+        ctx.beginPath(); ctx.arc(3, s.y, 3, 0, 7); ctx.arc(W - 3, s.y, 3, 0, 7); ctx.fill();
+        continue;
+      }
+      for (var j = 0; j <= steps; j++) {
+        var u = j / steps, y = s.y + disp(s, u, t);
+        if (j === 0) ctx.moveTo(0, y); else ctx.lineTo(u * W, y);
+      }
+      ctx.strokeStyle = hot > 0.04 ? hg : '#f4f1f3';
+      ctx.globalAlpha = 0.08 + hot * 0.8;
+      ctx.lineWidth = 1 + hot * 1.2;
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    if (!reduce) requestAnimationFrame(draw);
+  }
+
+  var last = null;
+  hero.addEventListener('pointermove', function (ev) {
+    var r = hero.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+    if (last) {
+      var lo = Math.min(last.y, y), hi = Math.max(last.y, y), speed = Math.min(Math.hypot(x - last.x, y - last.y), 60);
+      for (var i = 0; i < strings.length; i++) if (strings[i].y > lo && strings[i].y <= hi && !(pull && i === MAIN)) pluck(strings[i], x / W, 5 + speed * 0.3);
+    }
+    last = { x: x, y: y };
+  });
+  hero.addEventListener('pointerleave', function () { last = null; });
+
+  function intro() {
+    var depth = Math.min(H * 0.16, 130);
+    pull = { t0: now(), dur: 1.1, u: 0.5, depth: depth };
+    setTimeout(function () {
+      var s = strings[MAIN];
+      pull = null;
+      pluck(s, 0.5, depth, W);
+      // sympathetic ring: neighbours pick it up, weaker with distance
+      strings.forEach(function (o, i) {
+        var d = Math.abs(i - MAIN);
+        if (d === 0) return;
+        setTimeout(function () { pluck(o, 0.5, Math.max(depth * 0.5 / (d + 0.5), 2.5), W); }, d * 55);
+      });
+    }, 1500);
+  }
+  function idle() {
+    if (document.hidden || pull || !strings.length) return;
+    var r = hero.getBoundingClientRect();
+    if (r.bottom < 0) return;
+    pluck(strings[Math.floor(Math.random() * strings.length)], 0.2 + Math.random() * 0.6, 7 + Math.random() * 9, W);
+  }
+
+  layout();
+  addEventListener('resize', function () { layout(); if (reduce) draw(); });
+  if (!reduce) setInterval(idle, 1400);
+  // a part of the mark landing strums the field, rippling out from the middle
+  window.vcStrum = function (u) {
+    if (reduce || !strings.length) return;
+    var mid = strings.length / 2;
+    strings.forEach(function (o, i) {
+      var d = Math.abs(i - mid);
+      setTimeout(function () { pluck(o, u, Math.max(18 / (1 + d * 0.35), 3), W); }, d * 28);
+    });
+  };
+  draw();
+
+  // ---------- scene index ----------
+  var links = [].slice.call(document.querySelectorAll('.index a'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { links.forEach(function (a) { a.classList.remove('on'); }); if (map[e.target.id]) map[e.target.id].classList.add('on'); }
+      });
+    }, { threshold: 0.55 });
+    document.querySelectorAll('.scene').forEach(function (s) { io.observe(s); });
+  }
+  links[0].classList.add('on');
+
+  // ---------- header follows the scene underneath ----------
+  var top = document.querySelector('.top'), scenes = [].slice.call(document.querySelectorAll('.hero-zone, .scene:not(.hero), .story')), ticking = false;
+  function theme() {
+    ticking = false;
+    var mid = innerHeight / 2;
+    for (var i = 0; i < scenes.length; i++) {
+      var r = scenes[i].getBoundingClientRect();
+      if (r.top <= 36 && r.bottom > 36) top.classList.toggle('light', !(scenes[i].classList.contains('night') || scenes[i].classList.contains('story')));
+      if (r.top <= mid && r.bottom > mid && map[scenes[i].id]) { links.forEach(function (a) { a.classList.toggle('on', a === map[scenes[i].id]); }); }
+    }
+  }
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(theme); } }, { passive: true });
+  theme();
+
+  // ---------- the mark as a spinner: the three parts step 90° round the centre, so the empty quadrant travels.
+  // It always finishes the turn, so the logo comes to rest the right way up. ----------
+  function spinner(svg, trigger) {
+    var g = svg.querySelector('.spin'), angle = 0, target = 0, hover = false, running = false;
+    function set(a) { g.setAttribute('transform', 'rotate(' + a.toFixed(2) + ' 20 20)'); }
+    function step() {
+      running = true;
+      var from = angle, to = target = target + 90, t0 = performance.now(), dur = 420;
+      (function frame(t) {
+        var k = Math.min((t - t0) / dur, 1), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        angle = from + (to - from) * e; set(angle);
+        if (k < 1) return requestAnimationFrame(frame);
+        if (hover || target % 360 !== 0) setTimeout(step, 110);
+        else { running = false; angle = target = 0; set(0); }
+      })(t0);
+    }
+    function go() { if (!reduce && !running) step(); }
+    trigger.addEventListener('pointerenter', function () { hover = true; go(); });
+    trigger.addEventListener('pointerleave', function () { hover = false; });
+    trigger.addEventListener('focus', function () { hover = true; go(); });
+    trigger.addEventListener('blur', function () { hover = false; });
+    return go;
+  }
+  var headSpin = spinner(document.querySelector('.logo .vcm'), document.querySelector('.logo'));
+  setTimeout(headSpin, 700);
+
+  // ---------- copy address ----------
+  document.getElementById('copy').addEventListener('click', function () {
+    var btn = this, el = document.getElementById('mail');
+    function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy address'; }, 1600); }
+    function select() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    try { navigator.clipboard.writeText(el.textContent).then(done, select); } catch (e) { select(); }
+  });
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  var zone = document.getElementById('hero'), hero = zone.querySelector('section.hero');
+  var contact = document.getElementById('contact'), engage = document.getElementById('engage');
+  var ticks = [].slice.call(hero.querySelectorAll('.parts li'));
+  function still() { zone.classList.add('static'); hero.classList.add('static'); contact.classList.add('static'); engage.classList.add('static'); }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.THREE) return still();
+
+  // same polygons as the 2D mark, on its 40-unit grid (y down)
+  var MARK = [
+    [[0, 5.66], [5.66, 0], [19.2, 13.54], [19.2, 19.2], [13.54, 19.2]],
+    [[20.8, 13.54], [34.34, 0], [40, 5.66], [26.46, 19.2], [20.8, 19.2]],
+    [[20.8, 20.8], [26.46, 20.8], [40, 34.34], [34.34, 40], [20.8, 26.46]]
+  ];
+  var EDGE = [0xff1f8e, 0xff5552, 0xff8a1a], DEPTH = 7;
+  var c1 = new THREE.Color(0xff1f8e), c2 = new THREE.Color(0xff8a1a);
+  var TAN = Math.tan(15 * Math.PI / 180);
+
+  function clamp(v) { return Math.min(Math.max(v, 0), 1); }
+  function seg(p, a, b) { return clamp((p - a) / (b - a)); }
+  function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function lights(scene) {
+    scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+    var key = new THREE.DirectionalLight(0xffffff, 0.75); key.position.set(-50, 70, 110); scene.add(key);
+    var rim = new THREE.DirectionalLight(0xffb36b, 0.55); rim.position.set(70, -50, -80); scene.add(rim);
+  }
+  function renderer(canvas) {
+    var r = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    if (!r.getContext()) throw new Error('no webgl');
+    r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    r.setClearColor(0x000000, 0);   // three starts with opaque black; a fixed overlay must clear to transparent
+    return r;
+  }
+  // drag to rotate (springs back when left alone); a tap calls onTap
+  function grab(el, onTap) {
+    var u = { x: 0, y: 0, vx: 0, vy: 0, drag: false, idle: 0, px: 0, py: 0, moved: 0 };
+    el.addEventListener('pointerdown', function (e) { u.drag = true; u.moved = 0; u.px = e.clientX; u.py = e.clientY; try { el.setPointerCapture(e.pointerId); } catch (_) {} });
+    el.addEventListener('pointermove', function (e) {
+      if (!u.drag) return;
+      var dx = e.clientX - u.px, dy = e.clientY - u.py; u.px = e.clientX; u.py = e.clientY;
+      u.moved += Math.abs(dx) + Math.abs(dy); u.vy = dx * 0.009; u.vx = dy * 0.009; u.y += u.vy; u.x += u.vx; u.idle = performance.now();
+    });
+    el.addEventListener('pointerup', function () { u.drag = false; u.idle = performance.now(); if (u.moved < 6) onTap(); });
+    el.addEventListener('pointercancel', function () { u.drag = false; u.idle = performance.now(); });
+    u.step = function (now) {
+      if (u.drag) return;
+      u.x += u.vx; u.y += u.vy; u.vx *= 0.93; u.vy *= 0.93;
+      if (now - u.idle > 1800) { u.x *= 0.95; u.y *= 0.95; }
+    };
+    return u;
+  }
+
+  // ---------- the mark: three extruded parts that fly in from `from`; tap spins them a full turn in 90° steps ----------
+  function Mark3D(host, from) {
+    var canvas = document.createElement('canvas'); host.insertBefore(canvas, host.firstChild);
+    var gl = renderer(canvas), scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, 1, 2000);
+    lights(scene);
+    var logo = new THREE.Group(), turn = new THREE.Group(); logo.add(turn); scene.add(logo);
+    var parts = MARK.map(function (poly, i) {
+      var shape = new THREE.Shape();
+      poly.forEach(function (q, j) { var x = q[0] - 20, y = 20 - q[1]; if (j === 0) shape.moveTo(x, y); else shape.lineTo(x, y); });
+      var geo = new THREE.ExtrudeGeometry(shape, { depth: DEPTH, bevelEnabled: false });
+      geo.translate(0, 0, -DEPTH / 2);
+      var pos = geo.attributes.position, cols = new Float32Array(pos.count * 3), c = new THREE.Color();
+      for (var k = 0; k < pos.count; k++) {
+        c.copy(c1).lerp(c2, clamp((pos.getX(k) + 40 - pos.getY(k)) / 80));
+        cols[k * 3] = c.r; cols[k * 3 + 1] = c.g; cols[k * 3 + 2] = c.b;
+      }
+      geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+      geo.computeBoundingBox();
+      var home = new THREE.Vector3(); geo.boundingBox.getCenter(home); geo.translate(-home.x, -home.y, -home.z);
+      var mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, opacity: 0, roughness: 0.42, metalness: 0.12 }));
+      var edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: EDGE[i], transparent: true, opacity: 1 }));
+      var g = new THREE.Group(); g.add(mesh); g.add(edges); turn.add(g);
+      return { g: g, mesh: mesh, edges: edges, home: home, from: from[i] };
+    });
+    var ghosts = MARK.map(function (poly) {
+      var pts = poly.map(function (q) { return new THREE.Vector3(q[0] - 20, 20 - q[1], 0); }); pts.push(pts[0].clone());
+      var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 1, gapSize: 1.2, transparent: true, opacity: 0.3 }));
+      line.computeLineDistances(); turn.add(line); return line;
+    });
+    var spin = { angle: 0, from: 0, to: 0, t0: 0, left: 0, moving: false };
+    function nextStep(now) { spin.from = spin.angle; spin.to = spin.angle - Math.PI / 2; spin.t0 = now; spin.left--; spin.moving = true; }
+    var user = grab(host, function () { if (!spin.moving && spin.left === 0) { spin.left = 4; nextStep(performance.now()); } });
+
+    var api = { narrow: false, distance: 150, offset: [0, 0] };
+    api.size = function () { gl.setSize(host.clientWidth, host.clientHeight, false); camera.aspect = host.clientWidth / host.clientHeight; api.narrow = host.clientWidth < 760; };
+    api.visible = function () { var r = host.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+    // k(i): how far part i has arrived; fill, ghost and face are 0..1
+    api.render = function (k, fill, ghost, face) {
+      var now = performance.now(), t = now / 1000;
+      parts.forEach(function (pt, i) {
+        var o = 1 - ease(k(i)), f = pt.from;
+        pt.g.position.set(pt.home.x + f.p[0] * o, pt.home.y + f.p[1] * o, pt.home.z + f.p[2] * o);
+        pt.g.rotation.set(f.r[0] * o, f.r[1] * o, f.r[2] * o);
+        pt.mesh.material.opacity = fill; pt.mesh.material.transparent = fill < 1;
+        pt.edges.material.opacity = 1 - fill; pt.edges.visible = fill < 0.98;
+      });
+      ghosts.forEach(function (l) { l.material.opacity = 0.3 * ghost; l.visible = ghost > 0.02; });
+      if (spin.moving) {
+        var s = Math.min((now - spin.t0) / 420, 1);
+        spin.angle = spin.from + (spin.to - spin.from) * ease(s);
+        if (s >= 1) { spin.moving = false; if (spin.left > 0) setTimeout(function () { nextStep(performance.now()); }, 110); else spin.angle = 0; }
+      }
+      turn.rotation.z = spin.angle;
+      user.step(now);
+      logo.rotation.set(0.42 * (1 - face) + Math.sin(t * 0.6) * 0.05 + user.x, -0.8 * (1 - face) + Math.sin(t * 0.4) * 0.1 + user.y, 0);
+      logo.position.set(api.offset[0], api.offset[1], 0);
+      camera.position.set(0, 0, api.distance); camera.updateProjectionMatrix();
+      gl.render(scene, camera);
+    };
+    api.size();
+    return api;
+  }
+
+  // ---------- engagement: the mark unfolds into the fee → equity scale ----------
+  // Drawn on one fixed canvas over the whole window (nothing can clip it); the band is only the hit area.
+  // Three 45° bars (row 1: two meeting in the middle, row 2: one across), the mark's thin cut between them.
+  function Engage3D(band) {
+    var canvas = document.createElement('canvas'); canvas.className = 'engage-gl'; document.body.appendChild(canvas);
+    var gl = renderer(canvas), scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, 1, 4000), D = 140;
+    lights(scene);
+    var block = new THREE.Group(); scene.add(block);
+    var bars = [], ghosts = [], built = '';
+    var START = [ // the bar's pose inside the mark (centre on the 40 grid in three coords, angle)
+      { c: [-10.4, 10.4], rz: -Math.PI / 4 },
+      { c: [10.4, 10.4], rz: Math.PI / 4 },
+      { c: [10.4, -10.4], rz: -Math.PI / 4 }
+    ];
+    var flips = [0, 0, 0], flipT = -1;
+    var user = grab(band, function () { flipT = performance.now(); });
+    var hover = { x: 0, y: 0, on: false };
+    band.addEventListener('pointermove', function (e) { var r = band.getBoundingClientRect(); hover.x = (e.clientX - r.left) / r.width - 0.5; hover.y = (e.clientY - r.top) / r.height - 0.5; hover.on = true; });
+    band.addEventListener('pointerleave', function () { hover.on = false; });
+
+    function build(W, H) {
+      bars.concat(ghosts).forEach(function (o) { block.remove(o.g || o); });
+      bars = []; ghosts = [];
+      var h = H / 2.2, g = h * 0.2, y0 = -(2 * h + g) / 2, y1 = y0 + h + g;
+      var shapes = [ // [bottom-left x, bottom-right x, bottom y]; each bar leans 45° to the right by h
+        [-W / 2 + h + g, -g / 2 - h / 2, y1],      // row 1, left  (comes from the left)
+        [-W / 2, W / 2 - 2 * h - g, y0],          // row 2, full  (sweeps in)
+        [g / 2 - h / 2, W / 2 - h, y1]            // row 1, right (comes from the right)
+      ];
+      shapes.forEach(function (sh, i) {
+        var a = sh[0], b = sh[1], y = sh[2];
+        var pts = [[a, y], [b, y], [b + h, y + h], [a + h, y + h]];
+        var cx = (a + b + h) / 2, cy = y + h / 2;
+        var shape = new THREE.Shape();
+        pts.forEach(function (q, j) { if (j === 0) shape.moveTo(q[0] - cx, q[1] - cy); else shape.lineTo(q[0] - cx, q[1] - cy); });
+        var depth = h * 0.8, geo = new THREE.ExtrudeGeometry(shape, { depth: depth, bevelEnabled: false });
+        geo.translate(0, 0, -depth / 2);
+        var pos = geo.attributes.position, cols = new Float32Array(pos.count * 3), c = new THREE.Color();
+        for (var k = 0; k < pos.count; k++) { c.copy(c1).lerp(c2, clamp((pos.getX(k) + cx + W / 2) / W)); cols[k * 3] = c.r; cols[k * 3 + 1] = c.g; cols[k * 3 + 2] = c.b; }
+        geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+        var mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, opacity: 0, roughness: 0.38, metalness: 0.15 }));
+        var edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: EDGE[i], transparent: true, opacity: 1 }));
+        var grp = new THREE.Group(); grp.add(mesh); grp.add(edges); block.add(grp);
+        // pose inside the mark: same centre and angle as the mark's part, scaled to the mark's bar
+        var M = H * 1.5 / 40, len = b - a + h, st = START[i];
+        bars.push({ g: grp, mesh: mesh, edges: edges, home: new THREE.Vector3(cx, cy, 0),
+          start: { x: st.c[0] * M, y: st.c[1] * M, rz: st.rz, sx: 24 * M / len, sy: 8 * M / h } });
+        var gl2 = pts.map(function (q) { return new THREE.Vector3(q[0], q[1], 0); }); gl2.push(gl2[0].clone());
+        var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(gl2), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: h * 0.12, gapSize: h * 0.14, transparent: true, opacity: 0 }));
+        line.computeLineDistances(); block.add(line); ghosts.push(line);
+      });
+    }
+
+    var api = {};
+    api.size = function () { gl.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.position.set(0, 0, D); camera.updateProjectionMatrix(); };
+    api.visible = function () { var r = engage.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+    var cleared = false;
+    api.frame = function () {
+      if (!api.visible()) { if (!cleared) { gl.clear(); cleared = true; } return; }
+      cleared = false;
+      var r = band.getBoundingClientRect(), u = 2 * D * TAN / innerHeight;
+      var key = Math.round(r.width) + 'x' + Math.round(r.height);
+      if (key !== built) { built = key; build(r.width * u, r.height * u); }
+      block.position.set((r.left + r.width / 2 - innerWidth / 2) * u, -(r.top + r.height / 2 - innerHeight / 2) * u, 0);
+
+      var now = performance.now(), t = now / 1000;
+      var b = clamp((innerHeight - r.top) / (innerHeight * 0.68));
+      var appear = ease(seg(b, 0, 0.16)), fill = ease(seg(b, 0.72, 0.94));
+      ghosts.forEach(function (l) { l.material.opacity = 0.35 * ease(seg(b, 0.04, 0.2)) * (1 - ease(seg(b, 0.62, 0.8))); l.visible = l.material.opacity > 0.01; });
+      bars.forEach(function (bar, i) {
+        var k = ease(seg(b, 0.18 + i * 0.09, 0.6 + i * 0.09)), o = 1 - k, s = bar.start, h = bar.home;
+        // unfold: slide out of the mark, flip once on the long axis, lift toward you mid-way, grow to length
+        var flip = 0;
+        if (flipT > 0) { var ft = clamp((now - flipT - i * 140) / 700); flip = ease(ft) * Math.PI * 2; if (i === 2 && ft >= 1) flipT = -1; }
+        var bob = fill * Math.sin(t * 1.3 + i * 1.7) * 0.6;
+        bar.g.position.set(s.x * o + h.x * k, s.y * o + h.y * k + bob, Math.sin(Math.PI * k) * 18 + bob);
+        bar.g.rotation.set(o * Math.PI + flip, 0, s.rz * o);
+        bar.g.scale.set(s.sx * o + k, s.sy * o + k, 1);
+        bar.mesh.material.opacity = fill; bar.mesh.material.transparent = fill < 1;
+        bar.edges.material.opacity = appear * (1 - fill); bar.edges.visible = fill < 0.98 && appear > 0.01;
+      });
+      // lean toward the pointer, plus the viewer's drag
+      user.step(now);
+      var lx = hover.on ? hover.y * 0.25 : 0, ly = hover.on ? hover.x * 0.35 : 0;
+      block.rotation.x += (lx + user.x + 0.18 * (1 - fill) - block.rotation.x) * 0.12;
+      block.rotation.y += (ly + user.y - block.rotation.y) * 0.12;
+      gl.render(scene, camera);
+    };
+    api.size();
+    return api;
+  }
+
+  var big, foot, row, band = engage.querySelector('.band3d');
+  try {
+    big = Mark3D(hero.querySelector('.gl'), [
+      { p: [-120, 40, -60], r: [0.9, -1.5, 0.6] },
+      { p: [80, 100, -70], r: [-1.3, 0.9, -1.0] },
+      { p: [110, -90, 40], r: [1.2, 1.4, -0.7] }
+    ]);
+    foot = Mark3D(contact.querySelector('.gl-foot'), [
+      { p: [-90, 10, -30], r: [0.6, -1.2, 0.4] },
+      { p: [90, 40, -40], r: [-0.9, 1.1, -0.6] },
+      { p: [60, -90, 30], r: [1.0, 0.9, -0.5] }
+    ]);
+    row = Engage3D(band);
+  } catch (e) { return still(); }
+  addEventListener('resize', function () { big.size(); foot.size(); row.size(); });
+
+  // ---------- hero: the headline follows the build, one line per part, then the whole ----------
+  var STEPS = [
+    { tag: 'Part 01 · Experience', h: 'Straight to <em>the shot.</em>', p: 'Decades of building, running and funding companies means we skip the warm-up. We know what matters first, and we start there on day one.' },
+    { tag: 'Part 02 · Detail', h: 'An eye for <em>every detail.</em>', p: 'Small things decide whether investors, regulators and users trust a company. We sweat them, from the data model to the last line of copy.' },
+    { tag: 'Part 03 · Architecture', h: 'Built live, <em>built right.</em>', p: 'The right architecture for the purpose, set up from the start and shipped to production. No POCs and no throwaway steps in between.' },
+    { tag: 'Vibrant Capital', h: 'Funding, allocated where it <em>counts.</em>', p: 'We select a few companies, take ownership, and help them raise capital by putting the right resources in the right place, fast.' }
+  ];
+  var h1 = document.getElementById('hero-h1'), lead = document.getElementById('hero-lead'), tag = document.getElementById('hero-tag');
+  function words(html) {
+    var n = 0;
+    return html.replace(/<em>(.*?)<\/em>|([^\s<]+)/g, function (m, em, w) {
+      var d = 'style="animation-delay:' + (n++ * 0.07).toFixed(2) + 's"';
+      return em ? '<em class="w" ' + d + '>' + em + '</em>' : '<span class="w" ' + d + '>' + w + '</span>';
+    });
+  }
+  var step = -1;
+  function show(i, instant) {
+    if (i === step) return;
+    step = i;
+    var el = [h1, lead, tag];
+    function swap() {
+      h1.innerHTML = words(STEPS[i].h); lead.textContent = STEPS[i].p; tag.textContent = STEPS[i].tag;
+      el.forEach(function (e) { e.classList.remove('swap'); });
+    }
+    if (instant) return swap();
+    el.forEach(function (e) { e.classList.add('swap'); });
+    setTimeout(swap, 280);
+  }
+
+  // The build runs on one clock, TT seconds long: part i flies in over [0.5 + 2.6i, 1.8 + 2.6i], fill from 8.1.
+  // It plays by itself on arrival; after that the hero zone's scroll position is the clock, so scrolling
+  // back up rewinds the build and scrolling down plays it forward.
+  var TT = 9.6, T0 = performance.now(), auto = true, shown = 0, landed = [false, false, false];
+  function arrive(i, tt) { return seg(tt, 0.5 + i * 2.6, 1.8 + i * 2.6); }
+  function span() { return zone.offsetHeight - innerHeight; }
+  function zoneTop() { return zone.getBoundingClientRect().top + scrollY; }
+  function scrolled() { return clamp((scrollY - zoneTop()) / span()); }
+  // hand the clock to the scroll bar, placing the page so the picture does not jump
+  function handOver(p) {
+    if (!auto) return;
+    auto = false;
+    if (scrollY <= zoneTop() + span()) window.scrollTo({ top: zoneTop() + p * span(), behavior: 'instant' });
+  }
+  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { addEventListener(ev, function () { handOver(shown); }, { passive: true }); });
+  if (scrollY > zoneTop() + 10) auto = false;   // arrived mid-page (reload, anchor): no autoplay
+  show(0, true);
+  ticks.forEach(function (li) { li.classList.remove('in'); });
+
+  (function frame() {
+    requestAnimationFrame(frame);
+    var target = auto ? clamp((performance.now() - T0) / 1000 / TT) : scrolled();
+    if (auto && target >= 1) handOver(1);
+    shown += (target - shown) * (auto ? 1 : 0.14);
+    var tt = shown * TT;
+
+    if (big.visible()) {
+      big.distance = big.narrow ? 230 : 150;
+      var vh = 2 * big.distance * TAN, vw = vh * (hero.clientWidth / hero.clientHeight);
+      big.offset = big.narrow ? [0, vh * 0.24] : [vw * 0.25, vh * 0.06];
+      big.render(function (i) { return arrive(i, tt); }, ease(seg(tt, 8.1, 9.3)), 1 - ease(seg(tt, 7.8, 8.8)), ease(seg(tt, 0.2, 8.6)));
+    }
+    for (var i = 0; i < 3; i++) {
+      var on = arrive(i, tt) >= 1;
+      if (on && !landed[i] && window.vcStrum) window.vcStrum(0.62 + i * 0.08);
+      landed[i] = on; ticks[i].classList.toggle('in', on);
+    }
+    show(tt < 2.9 ? 0 : tt < 5.5 ? 1 : tt < 8.1 ? 2 : 3);
+
+    row.frame();
+
+    // the contact scene: the mark builds itself again as the scene slides up into view
+    if (foot.visible()) {
+      var q = clamp((innerHeight - contact.getBoundingClientRect().top) / (innerHeight * 0.85));
+      foot.distance = 128;
+      foot.render(function (i) { return seg(q, 0.05 + i * 0.12, 0.45 + i * 0.12); },
+        ease(seg(q, 0.62, 0.9)), 1 - ease(seg(q, 0.55, 0.8)), ease(seg(q, 0.1, 0.85)));
+    }
+  })();
+})();
+</script>
+</body>
 </html>

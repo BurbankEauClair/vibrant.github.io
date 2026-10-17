@@ -296,9 +296,10 @@
   /* ---------- 8 · fee ↔ equity ---------- */
   .engage { background: var(--panel); }
   .band-wrap { position: relative; padding-top: 2.4rem; }
-  .band-ends { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; color: var(--mute); }
-  .band { height: 84px; position: relative; overflow: hidden; background: linear-gradient(90deg, color-mix(in srgb, var(--fg) 35%, var(--panel)) 0%, color-mix(in srgb, var(--fg) 35%, var(--panel)) 8%, var(--g1) 62%, var(--g2) 100%); cursor: crosshair; }
-  .band canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .band-ends { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; gap: 1rem; color: var(--mute); }
+  .engage .gl.band3d { position: relative; inset: auto; height: clamp(170px, 19vw, 260px); margin-top: .6rem; }
+  .engage .stop::before { display: none; }
+  .engage.static .band3d { display: none; }
   .stops { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2.5rem; }
   .stop { position: relative; padding-top: 2.2rem; display: grid; gap: .8rem; align-content: start; }
   .stop::before { content: ""; position: absolute; top: -84px; width: 3px; height: calc(84px + 1.6rem); background: var(--panel); }
@@ -613,11 +614,11 @@
       <div class="head rv">
         <span class="mono">How we engage</span>
         <h2>Somewhere between fee and <em>equity.</em></h2>
-        <p>Every deal is built around ownership. You choose where on the string we sit; the further right, the more we act as co-owners, and the more selective we are about saying yes.</p>
+        <p>Every deal is built around ownership. You choose where on the scale we sit; the further right, the more we act as co-owners, and the more selective we are about saying yes.</p>
       </div>
       <div class="band-wrap rv d1">
-        <div class="band-ends mono"><span>100% fee</span><span>100% equity</span></div>
-        <div class="band"><canvas id="band" aria-hidden="true"></canvas></div>
+        <div class="band-ends mono"><span>100% fee</span><span class="hide-s">Drag to rotate · tap to spin</span><span>100% equity</span></div>
+        <div class="gl band3d" aria-hidden="true"></div>
         <div class="stops">
           <div class="stop">
             <span class="mono split">Fee only</span>
@@ -777,7 +778,7 @@
   }
 
   layout();
-  addEventListener('resize', function () { layout(); band.layout(); if (reduce) { draw(); band.draw(); } });
+  addEventListener('resize', function () { layout(); if (reduce) draw(); });
   if (!reduce) setInterval(idle, 1400);
   // a part of the mark landing strums the field, rippling out from the middle
   window.vcStrum = function (u) {
@@ -789,27 +790,6 @@
     });
   };
   draw();
-
-  // ---------- engagement band: one string across the fee↔equity scale ----------
-  var band = (function () {
-    var c = document.getElementById('band'), g = c.getContext('2d'), w = 0, h = 0, s = { plucks: [], f: 1.3 };
-    function lay() { var r = c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); w = r.width; h = r.height; c.width = w * d; c.height = h * d; g.setTransform(d, 0, 0, d, 0, 0); }
-    function dr() {
-      var t = now(), n = Math.max(50, Math.round(w / 8));
-      g.clearRect(0, 0, w, h);
-      g.beginPath();
-      for (var j = 0; j <= n; j++) { var u = j / n, y = h / 2 + disp(s, u, t); if (j === 0) g.moveTo(0, y); else g.lineTo(u * w, y); }
-      g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 2; g.stroke();
-      [0, 0.5, 1].forEach(function (u) { g.beginPath(); g.arc(Math.min(Math.max(u * w, 5), w - 5), h / 2 + disp(s, u, t), 5, 0, 7); g.fillStyle = '#fff'; g.fill(); });
-      if (!reduce) requestAnimationFrame(dr);
-    }
-    c.parentNode.addEventListener('pointermove', function (ev) {
-      var r = c.getBoundingClientRect(), u = (ev.clientX - r.left) / r.width;
-      if (energy(s, now()) < 6) pluck(s, u, 14, w);
-    });
-    lay(); dr();
-    return { layout: lay, draw: dr };
-  })();
 
   // ---------- scene index ----------
   var links = [].slice.call(document.querySelectorAll('.index a'));
@@ -879,7 +859,8 @@
 (function () {
   var hero = document.getElementById('hero'), contact = document.getElementById('contact');
   var ticks = [].slice.call(hero.querySelectorAll('.parts li'));
-  function still() { hero.classList.add('static'); contact.classList.add('static'); }
+  var engage = document.getElementById('engage');
+  function still() { hero.classList.add('static'); contact.classList.add('static'); engage.classList.add('static'); }
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.THREE) return still();
 
   // same polygons as the 2D mark, on its 40-unit grid (y down)
@@ -896,7 +877,7 @@
   function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
 
   // A 3D mark: three extruded parts that fly in from `from`, a dashed blueprint, drag to rotate, tap to spin.
-  function Mark3D(host, from) {
+  function Mark3D(host, from, perPartSpin) {
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     if (!renderer.getContext()) throw new Error('no webgl');
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -908,13 +889,6 @@
     var logo = new THREE.Group(), turn = new THREE.Group();
     logo.add(turn); scene.add(logo);
 
-    var ghosts = MARK.map(function (poly) {
-      var pts = poly.map(function (q) { return new THREE.Vector3(q[0] - 20, 20 - q[1], 0); });
-      pts.push(pts[0].clone());
-      var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 1, gapSize: 1.2, transparent: true, opacity: 0.3 }));
-      line.computeLineDistances(); turn.add(line);
-      return line;
-    });
     var parts = MARK.map(function (poly, i) {
       var shape = new THREE.Shape();
       poly.forEach(function (q, j) { var x = q[0] - 20, y = 20 - q[1]; if (j === 0) shape.moveTo(x, y); else shape.lineTo(x, y); });
@@ -932,6 +906,16 @@
       var edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: EDGE[i], transparent: true, opacity: 1 }));
       var g = new THREE.Group(); g.add(mesh); g.add(edges); turn.add(g);
       return { g: g, mesh: mesh, edges: edges, home: home, from: from[i] };
+    });
+
+    // the blueprint: a dashed outline of each part, drawn around the part's own centre and kept at its home
+    var ghosts = MARK.map(function (poly, i) {
+      var h = parts[i].home;
+      var pts = poly.map(function (q) { return new THREE.Vector3(q[0] - 20 - h.x, 20 - q[1] - h.y, 0); });
+      pts.push(pts[0].clone());
+      var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 1, gapSize: 1.2, transparent: true, opacity: 0.3 }));
+      line.computeLineDistances(); turn.add(line);
+      return line;
     });
 
     // drag rotates; a tap (no real movement) spins the parts one full turn in 90° steps
@@ -954,7 +938,7 @@
     });
     host.addEventListener('pointercancel', function () { user.drag = false; user.idle = performance.now(); });
 
-    var api = { narrow: false, distance: 150, offset: [0, 0] };
+    var api = { narrow: false, distance: 150, offset: [0, 0], parts: parts };
     api.size = function () {
       var w = host.clientWidth, h = host.clientHeight;
       renderer.setSize(w, h, false); camera.aspect = w / h; api.narrow = w < 760;
@@ -970,7 +954,7 @@
         pt.mesh.material.opacity = fill; pt.mesh.material.transparent = fill < 1;
         pt.edges.material.opacity = 1 - fill; pt.edges.visible = fill < 0.98;
       });
-      ghosts.forEach(function (l) { l.material.opacity = 0.3 * ghost; l.visible = ghost > 0.02; });
+      ghosts.forEach(function (l, i) { l.position.copy(parts[i].home); l.material.opacity = 0.3 * ghost; l.visible = ghost > 0.02; });
       if (spin.moving) {
         var s = Math.min((now - spin.t0) / 420, 1);
         spin.angle = spin.from + (spin.to - spin.from) * ease(s);
@@ -980,7 +964,8 @@
           else spin.angle = 0;
         }
       }
-      turn.rotation.z = spin.angle;
+      if (perPartSpin) parts.forEach(function (pt) { pt.g.rotation.z += spin.angle; });
+      else turn.rotation.z = spin.angle;
       if (!user.drag) {
         user.x += user.vx; user.y += user.vy; user.vx *= 0.93; user.vy *= 0.93;
         if (now - user.idle > 1800) { user.x *= 0.95; user.y *= 0.95; }
@@ -994,7 +979,7 @@
     return api;
   }
 
-  var big, foot;
+  var big, foot, row;
   try {
     big = Mark3D(hero.querySelector('.gl'), [
       { p: [-120, 40, -60], r: [0.9, -1.5, 0.6] },
@@ -1006,8 +991,14 @@
       { p: [90, 40, -40], r: [-0.9, 1.1, -0.6] },
       { p: [60, -90, 30], r: [1.0, 0.9, -0.5] }
     ]);
+    // fee → equity: the three parts in a row; the gradient runs left to right with them
+    row = Mark3D(engage.querySelector('.band3d'), [
+      { p: [-90, 10, -30], r: [0.5, -1.3, 0.4] },
+      { p: [0, -70, -40], r: [-1.1, 0.7, -0.5] },
+      { p: [90, 10, -30], r: [0.7, 1.3, -0.4] }
+    ], true);
   } catch (e) { return still(); }
-  addEventListener('resize', function () { big.size(); foot.size(); });
+  addEventListener('resize', function () { big.size(); foot.size(); row.size(); });
 
   // the hero headline follows the build: one line per part, then the whole
   var STEPS = [
@@ -1058,6 +1049,17 @@
       if (!landed[i] && arrive(i, tt) >= 1) { landed[i] = true; ticks[i].classList.add('in'); if (window.vcStrum) window.vcStrum(0.62 + i * 0.08); }
     }
     show(tt < 2.9 ? 0 : tt < 5.5 ? 1 : tt < 8.1 ? 2 : 3);
+
+    // engagement: the parts fly in as wireframes over Cash, Hybrid and Sweat equity, then fill
+    if (row.visible()) {
+      row.distance = 64;
+      var rvh = 2 * row.distance * Math.tan(15 * Math.PI / 180), rvw = rvh * (row.parts.length && engage.querySelector('.band3d').clientWidth / engage.querySelector('.band3d').clientHeight);
+      var edge = Math.min(rvw / 2 - 13, rvw * 0.42);
+      row.parts[0].home.set(-edge, 0, 0); row.parts[1].home.set(0, 0, 0); row.parts[2].home.set(edge, 0, 0);
+      var b = clamp((innerHeight - engage.querySelector('.band3d').getBoundingClientRect().top) / (innerHeight * 0.75));
+      row.render(function (i) { return seg(b, 0.05 + i * 0.12, 0.42 + i * 0.12); },
+        ease(seg(b, 0.6, 0.9)), 1 - ease(seg(b, 0.55, 0.8)), ease(seg(b, 0.1, 0.9)));
+    }
 
     // the contact scene: the mark builds itself again as the scene slides up into view
     if (foot.visible()) {

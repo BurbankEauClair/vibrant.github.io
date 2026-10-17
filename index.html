@@ -330,6 +330,9 @@
     .step:nth-child(3) { padding-left: 0; border-left: 0; }
   }
   @media (max-width: 760px) {
+    /* contact: the footer follows the text instead of sitting on top of it */
+    .contact { flex-direction: column; align-items: stretch; justify-content: center; }
+    .contact .foot { position: relative; margin-top: 2rem; }
     .index { display: none; }
     .scene > .wrap { padding-block: 5.5rem 4.5rem; }
     .hero > .wrap { padding-block: 6rem 7rem; }
@@ -338,6 +341,9 @@
   @media (max-width: 520px) {
     .row { grid-template-columns: minmax(0,1fr); }
     .row > * { padding-left: 0; border-left: 0; }
+    /* the four figures stay a 2 × 2 grid instead of one long column */
+    .manifesto .row { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 1.6rem; }
+    .manifesto .row > :nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--line); }
     .rf { grid-template-columns: minmax(0, 1fr); }
     .rf .go { grid-column: 1; }
     .step + .step { padding-left: 0; border-left: 0; }

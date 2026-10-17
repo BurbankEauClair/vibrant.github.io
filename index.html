@@ -79,16 +79,11 @@
   .scene > .wrap { padding-block: 6.5rem 4.5rem; }
   .night { background: var(--night); color: var(--on-night); }
   .night em { color: var(--hot); }
-  .hero h1 em, .head h2 em, .contact h2 em, .manifesto .big em, .step .n {
+  .hero h1 em, .contact h2 em, .step .n {
     background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em;
   }
 
   /* scroll-driven reveal; static wherever unsupported */
-  @supports (animation-timeline: view()) {
-    .rv { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
-    .rv.d1 { animation-range: entry 6% cover 36%; }
-    .rv.d2 { animation-range: entry 12% cover 40%; }
-  }
   @keyframes rv { from { opacity: 0; translate: 0 56px; } to { opacity: 1; translate: 0 0; } }
 
   /* ---------- logo ---------- */
@@ -200,17 +195,29 @@
     .story.static .panels { grid-template-columns: minmax(0,1fr); }
   }
 
-  /* ---------- 2 · manifesto ---------- */
-  .manifesto .big {
-    font-size: clamp(2.2rem, 5.4vw, 5.4rem); line-height: 1; letter-spacing: -0.055em; font-weight: 600; margin: 0; max-width: 17ch; text-wrap: balance;
-  }
-  .manifesto .big span { color: var(--mute); }
-  .manifesto .label { color: var(--accent-ink); margin-bottom: 2rem; display: block; }
-  .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); margin-top: 4.5rem; border-top: 2px solid var(--fg); }
-  .stats div { padding: 1.2rem 1.2rem 0 0; }
-  .stats div + div { padding-left: 1.2rem; border-left: 1px solid var(--line); }
-  .stats b { display: block; font-size: clamp(2.4rem, 4.4vw, 4rem); font-weight: 500; letter-spacing: -0.06em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .stats span { display: block; margin-top: .6rem; color: var(--mute); }
+  /* ---------- section template (from "Why we exist"): label, one big statement, a ruled row ---------- */
+  .sec .label { display: block; color: var(--accent-ink); margin-bottom: 2rem; }
+  .sec .big { font-size: clamp(2.2rem, 5.4vw, 5.4rem); line-height: 1; letter-spacing: -0.055em; font-weight: 600; margin: 0; max-width: 20ch; text-wrap: balance; }
+  .sec .big .rest { color: var(--mute); }
+  .sec .big em { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  .sec .big .wd { transition: opacity .25s linear; }
+  .row { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); margin-top: 4.5rem; border-top: 2px solid var(--fg); }
+  .row > * { padding: 1.4rem 1.6rem 0 0; display: grid; gap: .8rem; align-content: start; min-width: 0; }
+  .row > * + * { padding-left: 1.6rem; border-left: 1px solid var(--line); }
+  .row b, .row h3 { display: block; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 500; letter-spacing: -0.06em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .row .mono { color: var(--mute); }
+  .row .k { color: var(--accent-ink); }
+  .row p { margin: 0; color: var(--mute); max-width: 36ch; }
+  .row ul { list-style: none; margin: .2rem 0 0; padding: 0; display: grid; }
+  .row li { padding: .55rem 0; border-top: 1px solid var(--line); font-size: .98rem; }
+  .row a { color: var(--accent-ink); }
+  .row .proof { color: var(--fg); padding-top: .8rem; border-top: 1px solid var(--line); }
+  .row > :last-child h3.lit { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; justify-self: start; }
+  /* equity share: grey is fee, gradient is equity; it fills as the row comes in */
+  .eq { height: 8px; background: var(--line); position: relative; overflow: hidden; }
+  .eq i { position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 1% * var(--p, 1)); background: var(--grad); }
+  .eq-l { display: flex; justify-content: space-between; color: var(--mute); }
+  .engage { background: var(--panel); }
 
   /* ---------- 3–6 · venture scenes ---------- */
   .venture { --c: #fff; }
@@ -262,15 +269,6 @@
   .pocket .film { height: auto; aspect-ratio: 390 / 800; }
   .pocket .film img { animation-duration: 26s; animation-delay: -6s; }
 
-  /* ---------- model: select → own → allocate → raise ---------- */
-  .model-steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); border-top: 2px solid var(--fg); }
-  .ms { padding: 1.4rem 1.6rem 0 0; display: grid; gap: .8rem; align-content: start; }
-  .ms + .ms { padding-left: 1.6rem; border-left: 1px solid var(--line); }
-  .ms .n { font: 400 .72rem/1 var(--f-mono); color: var(--accent-ink); }
-  .ms h3 { font-size: clamp(2.2rem, 3.8vw, 3.6rem); line-height: .95; letter-spacing: -0.06em; }
-  .ms:last-child h3 { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; justify-self: start; }
-  .ms p { margin: 0; color: var(--mute); }
-  .ms .proof { color: var(--fg); padding-top: .8rem; border-top: 1px solid var(--line); }
   .rf {
     margin-top: 3rem; display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 1.6rem; align-items: center;
     padding: 1rem; border: 1px solid var(--line); text-decoration: none; transition: border-color .25s;
@@ -283,42 +281,6 @@
   .rf:hover .go { color: var(--accent-ink); }
 
   /* ---------- 7 · capabilities ---------- */
-  .head { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 2rem; margin-bottom: 3.5rem; }
-  .head .mono { color: var(--accent-ink); padding-top: 1rem; }
-  .night .head .mono { color: var(--hot); }
-  .head h2 { font-size: clamp(2.4rem, 5.8vw, 5.2rem); line-height: .9; letter-spacing: -0.06em; max-width: 13ch; }
-  .head p { grid-column: 2; margin: 1.3rem 0 0; color: var(--mute); max-width: 52ch; font-size: 1.08rem; }
-  .caps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2.5rem; }
-  .cap { display: grid; gap: .9rem; align-content: start; padding-top: 1.2rem; border-top: 2px solid var(--fg); }
-  .cap .mono { color: var(--mute); }
-  .cap h3 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); line-height: 1; letter-spacing: -0.045em; }
-  .cap p { margin: 0; color: var(--mute); }
-  .cap ul { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; }
-  .cap li { padding: .55rem 0; border-top: 1px solid var(--line); font-size: .98rem; }
-  .cap a { color: var(--accent-ink); }
-
-  /* ---------- 8 · fee ↔ equity ---------- */
-  .engage { background: var(--panel); }
-  .band-wrap { position: relative; padding-top: 2.4rem; }
-  .band-ends { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; gap: 1rem; color: var(--mute); }
-  .engage .gl.band3d { position: relative; inset: auto; z-index: 3; height: clamp(84px, 8vw, 120px); margin-top: .6rem; }
-  /* the canvas overhangs the band so the block can turn in 3D without being clipped; only the band takes the drag */
-  .engage-gl { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
-  .engage .stop::before { display: none; }
-  .engage.static .band3d { display: none; }
-  .stops { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2.5rem; }
-  .stop { position: relative; padding-top: 2.2rem; display: grid; gap: .8rem; align-content: start; }
-  .stop::before { content: ""; position: absolute; top: -84px; width: 3px; height: calc(84px + 1.6rem); background: var(--panel); }
-  .stop:nth-child(1)::before { left: 0; }
-  .stop:nth-child(2)::before { left: calc(50% - 1.5px); }
-  .stop:nth-child(3)::before { right: 0; }
-  .stop:nth-child(2) { text-align: center; justify-items: center; }
-  .stop:nth-child(3) { text-align: right; justify-items: end; }
-  .stop h3 { font-size: clamp(2.2rem, 3.8vw, 3.2rem); letter-spacing: -0.055em; line-height: 1; }
-  .stop .split { color: var(--accent-ink); }
-  .stop p { margin: 0; color: var(--mute); max-width: 32ch; }
-  .stop .for { font-size: .95rem; color: var(--fg); max-width: 30ch; }
-
   /* ---------- 9 · start ---------- */
   .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); border-top: 2px solid var(--fg); }
   .step { padding: 1.4rem 1.5rem 0 0; display: grid; gap: .7rem; align-content: start; }
@@ -361,31 +323,27 @@
     .top .talk { margin-left: auto; }
     .venture > .wrap { grid-template-columns: minmax(0,1fr); gap: 2.5rem; }
     .film { height: 52svh; }
-    .head { grid-template-columns: minmax(0,1fr); gap: .8rem; }
-    .head .mono { padding-top: 0; }
-    .head p { grid-column: 1; }
-    .caps { grid-template-columns: minmax(0,1fr); }
-    .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .stats div:nth-child(3) { padding-left: 0; border-left: 0; }
-    .stats div { padding-bottom: 1.4rem; }
-    .stops { grid-template-columns: minmax(0,1fr); gap: 2rem; margin-top: 2rem; }
-    .stop, .stop:nth-child(2), .stop:nth-child(3) { text-align: left; justify-items: start; padding-top: 0; }
-    .stop::before { display: none; }
-    .steps, .model-steps { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 2rem; }
-    .ms:nth-child(3) { padding-left: 0; border-left: 0; }
+    .row { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 2.2rem; }
+    .row > :nth-child(odd) { padding-left: 0; border-left: 0; }
     .rf { grid-template-columns: 140px minmax(0, 1fr); }
     .rf .go { grid-column: 2; }
     .step:nth-child(3) { padding-left: 0; border-left: 0; }
   }
   @media (max-width: 760px) {
+    /* contact: the footer follows the text instead of sitting on top of it */
+    .contact { flex-direction: column; align-items: stretch; justify-content: center; }
+    .contact .foot { position: relative; margin-top: 2rem; }
     .index { display: none; }
     .scene > .wrap { padding-block: 5.5rem 4.5rem; }
     .hero > .wrap { padding-block: 6rem 7rem; }
     .pocket { right: 0; }
   }
   @media (max-width: 520px) {
-    .steps, .model-steps { grid-template-columns: minmax(0,1fr); }
-    .ms + .ms { padding-left: 0; border-left: 0; }
+    .row { grid-template-columns: minmax(0,1fr); }
+    .row > * { padding-left: 0; border-left: 0; }
+    /* the four figures stay a 2 × 2 grid instead of one long column */
+    .manifesto .row { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 1.6rem; }
+    .manifesto .row > :nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--line); }
     .rf { grid-template-columns: minmax(0, 1fr); }
     .rf .go { grid-column: 1; }
     .step + .step { padding-left: 0; border-left: 0; }
@@ -451,11 +409,11 @@
   </div>
 
   <!-- 2 -->
-  <section class="scene manifesto" id="thesis">
+  <section class="scene sec manifesto" id="thesis">
     <div class="wrap">
-      <span class="label mono rv">Why we exist</span>
-      <p class="big rv d1">We pick a few companies, take ownership and make them <em>investable,</em> fast. <span>Capital follows when the right people, product and proof sit in the right place.</span></p>
-      <div class="stats rv d2">
+      <span class="label mono">Why we exist</span>
+      <h2 class="big">We pick a few companies, take ownership and make them <em>investable,</em> fast. <span class="rest">Capital follows when the right people, product and proof sit in the right place.</span></h2>
+      <div class="row" style="--cols:4">
         <div><b>3</b><span class="mono">Portfolio companies</span></div>
         <div><b>6 mo</b><span class="mono">Seed to a $20M Series A</span></div>
         <div><b>$10M+</b><span class="mono">Raised per scaleup we've backed</span></div>
@@ -465,40 +423,17 @@
   </section>
 
   <!-- 3 -->
-  <section class="scene" id="model">
+  <section class="scene sec" id="model">
     <div class="wrap">
-      <div class="head rv">
-        <span class="mono">How we work</span>
-        <h2>Select. Own. Allocate. <em>Raise.</em></h2>
-        <p>Most investors skip the work in between. We do it, and we do it fast, so the company raises sooner and on better terms.</p>
+      <span class="label mono">How we work</span>
+      <h2 class="big">Select. Own. Allocate. <em>Raise.</em> <span class="rest">We do the work in between, fast.</span></h2>
+      <div class="row" style="--cols:4">
+        <div><span class="mono k">01</span><h3>Select</h3><p>We back a few companies a year in markets we know from the inside. Saying no is most of the job.</p><span class="mono proof">Fintech · Payments · AI</span></div>
+        <div><span class="mono k">02</span><h3>Own</h3><p>We take a real stake, in cash, sweat or both, and sit at the table as owners rather than advisers.</p><span class="mono proof">Equity · Board seat</span></div>
+        <div><span class="mono k">03</span><h3>Allocate</h3><p>We move people and money to the few things that change the valuation: product, regulation and go-to-market.</p><span class="mono proof">Weeks, not quarters</span></div>
+        <div><span class="mono k">04</span><h3 class="lit">Raise</h3><p>With a live product, real numbers and a clear story, we take the company to investors and run the round with you.</p><span class="mono proof">Seed → Series A</span></div>
       </div>
-      <div class="model-steps rv d1">
-        <div class="ms">
-          <span class="n">01</span>
-          <h3>Select</h3>
-          <p>We back a few companies a year in markets we know from the inside. Saying no is most of the job.</p>
-          <span class="mono proof">Fintech · Payments · AI</span>
-        </div>
-        <div class="ms">
-          <span class="n">02</span>
-          <h3>Own</h3>
-          <p>We take a real stake, in cash, sweat or both, and sit at the table as owners rather than advisers.</p>
-          <span class="mono proof">Equity · Board seat</span>
-        </div>
-        <div class="ms">
-          <span class="n">03</span>
-          <h3>Allocate</h3>
-          <p>We move people and money to the few things that change the valuation: product, regulation and go-to-market.</p>
-          <span class="mono proof">Weeks, not quarters</span>
-        </div>
-        <div class="ms">
-          <span class="n">04</span>
-          <h3>Raise</h3>
-          <p>With a live product, real numbers and a clear story, we take the company to investors and run the round with you.</p>
-          <span class="mono proof">Seed → Series A</span>
-        </div>
-      </div>
-      <a class="rf rv d2" href="https://rocketfactory.ai" target="_blank" rel="noopener">
+      <a class="rf" href="https://rocketfactory.ai" target="_blank" rel="noopener">
         <img src="img/rocket.jpg" alt="Rocket Factory website" loading="lazy">
         <div><span class="mono">Our build company</span><b>Rocket Factory</b><p>When allocation means product, Rocket Factory builds it. A senior crew with AI agents takes it from idea to live in weeks, without hiring a team first.</p></div>
         <span class="go">rocketfactory.ai ↗</span>
@@ -512,17 +447,17 @@
     <div class="wrap">
       <div class="v-text">
         <div class="v-meta mono"><span class="num">Portfolio 01 / 03</span><span class="dot">Payments app</span><span>Waitlist open</span></div>
-        <h2 class="v-name rv">FLIQ</h2>
-        <p class="v-tag rv d1">Your money, <em>at your pace.</em></p>
-        <p class="desc rv d1">Accounts, invoices and payments in one place. Pay straight from the bank account over open banking, without handing out card details.</p>
-        <div class="facts rv d2">
+        <h2 class="v-name">FLIQ</h2>
+        <p class="v-tag">Your money, <em>at your pace.</em></p>
+        <p class="desc">Accounts, invoices and payments in one place. Pay straight from the bank account over open banking, without handing out card details.</p>
+        <div class="facts">
           <div><b>1,500+</b><span class="mono">Banks</span></div>
           <div><b>31</b><span class="mono">EU/EEA countries</span></div>
           <div><b>0</b><span class="mono">Card details</span></div>
         </div>
         <a class="visit" href="https://fliqpayments.com/en" target="_blank" rel="noopener">fliqpayments.com <span class="arr">↗</span></a>
       </div>
-      <div class="screen rv d1">
+      <div class="screen">
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>fliqpayments.com/en</span></div>
           <div class="film"><img src="img/fliq_full.jpg" alt="FLIQ website, scrolling through invoice payments and the app"></div>
@@ -539,17 +474,17 @@
     <div class="wrap">
       <div class="v-text">
         <div class="v-meta mono"><span class="num">Portfolio 02 / 03</span><span class="dot">Bank infrastructure</span><span>● Live · v5.1</span></div>
-        <h2 class="v-name rv">TPP Validation</h2>
-        <p class="v-tag rv d1">The verdict <em>at your gate.</em></p>
-        <p class="desc rv d1">Real-time eIDAS certificate and NCA register checks for banks' regulated APIs. Approve or deny every third party in milliseconds, with push events when a licence changes.</p>
-        <div class="facts rv d2">
+        <h2 class="v-name">TPP Validation</h2>
+        <p class="v-tag">The verdict <em>at your gate.</em></p>
+        <p class="desc">Real-time eIDAS certificate and NCA register checks for banks' regulated APIs. Approve or deny every third party in milliseconds, with push events when a licence changes.</p>
+        <div class="facts">
           <div><b>78 ms</b><span class="mono">Median verdict</span></div>
           <div><b>99.99%</b><span class="mono">Triple-cloud SLA</span></div>
           <div><b>30</b><span class="mono">Jurisdictions</span></div>
         </div>
         <a class="visit" href="https://tppvalidation.com" target="_blank" rel="noopener">tppvalidation.com <span class="arr">↗</span></a>
       </div>
-      <div class="screen rv d1">
+      <div class="screen">
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>tppvalidation.com</span></div>
           <div class="film"><img src="img/tppval_full.jpg" alt="TPP Validation website, scrolling through the verification pipeline and compliance coverage"></div>
@@ -565,17 +500,17 @@
     <div class="wrap">
       <div class="v-text">
         <div class="v-meta mono"><span class="num">Portfolio 03 / 03</span><span class="dot">Developer tooling</span><span>● Live · free tier</span></div>
-        <h2 class="v-name rv">tppv.dev</h2>
-        <p class="v-tag rv d1">Validation for developers <em>and agents.</em></p>
-        <p class="desc rv d1">The CLI, MCP server and gateway plugins around TPP Validation. Generate enforcement for Kong, Apigee or AWS API Gateway, or let an AI agent check a TPP for you.</p>
-        <div class="facts rv d2">
+        <h2 class="v-name">tppv.dev</h2>
+        <p class="v-tag">Validation for developers <em>and agents.</em></p>
+        <p class="desc">The CLI, MCP server and gateway plugins around TPP Validation. Generate enforcement for Kong, Apigee or AWS API Gateway, or let an AI agent check a TPP for you.</p>
+        <div class="facts">
           <div><b>4</b><span class="mono">API · CLI · MCP · Web</span></div>
           <div><b>3</b><span class="mono">Gateway targets</span></div>
           <div><b>€0</b><span class="mono">To start</span></div>
         </div>
         <a class="visit" href="https://tppv.dev" target="_blank" rel="noopener">tppv.dev <span class="arr">↗</span></a>
       </div>
-      <div class="screen rv d1">
+      <div class="screen">
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>tppv.dev</span></div>
           <div class="film"><img src="img/tppv_full.jpg" alt="tppv.dev website, scrolling from the pixel hero through the verification pipeline"></div>
@@ -586,67 +521,27 @@
   </section>
 
   <!-- 7 -->
-  <section class="scene" id="do">
+  <section class="scene sec" id="do">
     <div class="wrap">
-      <div class="head rv">
-        <span class="mono">What we do</span>
-        <h2>Three ways we <em>move</em> a company.</h2>
-        <p>Senior operators who have built, run and raised for companies themselves. No hand-offs to juniors, no decks without a product behind them.</p>
-      </div>
-      <div class="caps rv d1">
-        <div class="cap">
-          <span class="mono">Select &amp; own</span>
-          <h3>Ownership in a few companies we believe in.</h3>
-          <p>We choose carefully and commit fully, with equity on the line and a seat at the table.</p>
-          <ul><li>Equity and sweat-equity deals</li><li>Board and advisory seats</li><li>Co-founding new ventures</li></ul>
-        </div>
-        <div class="cap">
-          <span class="mono">Allocate &amp; lead</span>
-          <h3>Resources where they move the valuation.</h3>
-          <p>Interim leadership and build capacity, placed exactly where the company is stuck. Product is built by <a href="https://rocketfactory.ai" target="_blank" rel="noopener">Rocket Factory</a>.</p>
-          <ul><li>Interim CEO, CTO and CPO</li><li>Product and build via Rocket Factory</li><li>Risk assessments and due diligence</li></ul>
-        </div>
-        <div class="cap">
-          <span class="mono">Raise &amp; scale</span>
-          <h3>Investor-ready, then funded.</h3>
-          <p>We sharpen the story, the numbers and the data room, then open our network and run the process with you.</p>
-          <ul><li>Equity story and financial model</li><li>Data room and due diligence prep</li><li>Investor introductions and round management</li></ul>
-        </div>
+      <span class="label mono">What we do</span>
+      <h2 class="big">Three ways we <em>move</em> a company. <span class="rest">Senior operators who have built, run and raised themselves.</span></h2>
+      <div class="row" style="--cols:3">
+        <div><span class="mono k">Select &amp; own</span><h3>Ownership</h3><p>We choose carefully and commit fully, with equity on the line and a seat at the table.</p><ul><li>Equity and sweat-equity deals</li><li>Board and advisory seats</li><li>Co-founding new ventures</li></ul></div>
+        <div><span class="mono k">Allocate &amp; lead</span><h3>Resources</h3><p>Interim leadership and build capacity, placed where the company is stuck. Product is built by <a href="https://rocketfactory.ai" target="_blank" rel="noopener">Rocket Factory</a>.</p><ul><li>Interim CEO, CTO and CPO</li><li>Product and build via Rocket Factory</li><li>Risk assessments and due diligence</li></ul></div>
+        <div><span class="mono k">Raise &amp; scale</span><h3 class="lit">Funding</h3><p>We sharpen the story, the numbers and the data room, then open our network and run the process with you.</p><ul><li>Equity story and financial model</li><li>Data room and due diligence prep</li><li>Investor introductions and round management</li></ul></div>
       </div>
     </div>
   </section>
 
   <!-- 8 -->
-  <section class="scene engage" id="engage">
+  <section class="scene sec engage" id="engage">
     <div class="wrap">
-      <div class="head rv">
-        <span class="mono">How we engage</span>
-        <h2>Somewhere between fee and <em>equity.</em></h2>
-        <p>Every deal is built around ownership. You choose where on the scale we sit; the further right, the more we act as co-owners, and the more selective we are about saying yes.</p>
-      </div>
-      <div class="band-wrap rv d1">
-        <div class="band-ends mono"><span>100% fee</span><span class="hide-s">Drag to rotate · tap to spin</span><span>100% equity</span></div>
-        <div class="gl band3d" aria-hidden="true"></div>
-        <div class="stops">
-          <div class="stop">
-            <span class="mono split">Fee only</span>
-            <h3>Cash</h3>
-            <p>Fixed-scope sprints or ongoing advisory with clear deliverables and an end date.</p>
-            <p class="for">For companies that know what they need built or fixed.</p>
-          </div>
-          <div class="stop">
-            <span class="mono split">Reduced fee + equity</span>
-            <h3>Hybrid</h3>
-            <p>A lower rate plus a stake. For funded companies that want a partner with skin in the game.</p>
-            <p class="for">For post-seed teams scaling product or entering regulated markets.</p>
-          </div>
-          <div class="stop">
-            <span class="mono split">Equity only</span>
-            <h3>Sweat equity</h3>
-            <p>We take a stake and grow with you. Kept for a few missions a year.</p>
-            <p class="for">For founders with a sharp idea in a market we know.</p>
-          </div>
-        </div>
+      <span class="label mono">How we engage</span>
+      <h2 class="big">Somewhere between fee and <em>equity.</em> <span class="rest">Every deal is built around ownership.</span></h2>
+      <div class="row" style="--cols:3">
+        <div><span class="mono k">Fee only</span><h3>Cash</h3><div class="eq"><i style="--v:0"></i></div><span class="eq-l mono"><span>100% fee</span><span>0% equity</span></span><p>Fixed-scope sprints or ongoing advisory with clear deliverables and an end date.</p><span class="mono proof">For companies that know what they need built or fixed</span></div>
+        <div><span class="mono k">Reduced fee + equity</span><h3>Hybrid</h3><div class="eq"><i style="--v:50"></i></div><span class="eq-l mono"><span>Lower fee</span><span>+ a stake</span></span><p>A lower rate plus a stake, for funded companies that want a partner with skin in the game.</p><span class="mono proof">For post-seed teams scaling or entering regulated markets</span></div>
+        <div><span class="mono k">Equity only</span><h3 class="lit">Sweat equity</h3><div class="eq"><i style="--v:100"></i></div><span class="eq-l mono"><span>0% fee</span><span>100% equity</span></span><p>We take a stake and grow with you. Kept for a few missions a year.</p><span class="mono proof">For founders with a sharp idea in a market we know</span></div>
       </div>
     </div>
   </section>
@@ -655,8 +550,8 @@
   <section class="scene night contact" id="contact">
     <div class="wrap">
       <div class="contact-text">
-        <h2 class="rv d1">Building something worth <em>owning?</em></h2>
-        <div class="mailrow rv d2">
+        <h2 class="d1">Building something worth <em>owning?</em></h2>
+        <div class="mailrow">
           <a class="mail" id="mail" href="mailto:hello@vibrantcapital.se">hello@vibrantcapital.se</a>
           <button class="copy" id="copy" type="button">Copy address</button>
         </div>
@@ -862,6 +757,51 @@
   });
 })();
 </script>
+<script>
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function clamp(v) { return Math.min(Math.max(v, 0), 1); }
+  // wrap every word of the statements, keeping <em> and the muted tail intact
+  var bigs = [].slice.call(document.querySelectorAll('.sec .big'));
+  bigs.forEach(function (el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [], n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function (t) {
+      var f = document.createDocumentFragment();
+      t.textContent.split(/(\s+)/).forEach(function (w) {
+        if (!w) return;
+        if (/^\s+$/.test(w)) { f.appendChild(document.createTextNode(w)); return; }
+        var sp = document.createElement('span'); sp.className = 'wd'; sp.textContent = w; f.appendChild(sp);
+      });
+      t.parentNode.replaceChild(f, t);
+    });
+    el._w = [].slice.call(el.querySelectorAll('.wd'));
+  });
+  var rows = [].slice.call(document.querySelectorAll('.sec .row, .sec .rf'));
+  // 0 when the element's top is at `from` (share of the viewport), 1 when it reaches `to`
+  function prog(el, from, to) { var y = el.getBoundingClientRect().top / innerHeight; return clamp((from - y) / (from - to)); }
+  function tick() {
+    ticking = false;
+    bigs.forEach(function (el) {
+      var p = prog(el, 0.92, 0.3), w = el._w, len = w.length;
+      w.forEach(function (sp, i) { sp.style.opacity = (0.14 + 0.86 * clamp(p * (len + 3) - i)).toFixed(3); });
+    });
+    rows.forEach(function (row) {
+      var p = prog(row, 1.02, 0.55), kids = row.classList.contains('rf') ? [row] : [].slice.call(row.children);
+      kids.forEach(function (c, i) {
+        var k = clamp(p * 1.7 - i * 0.22), e = 1 - Math.pow(1 - k, 3);
+        c.style.opacity = (0.12 + 0.88 * e).toFixed(3);
+        c.style.transform = 'translateY(' + ((1 - e) * 42).toFixed(1) + 'px)';
+        c.style.setProperty('--p', e.toFixed(3));
+      });
+    });
+  }
+  var ticking = false;
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
+  addEventListener('resize', tick);
+  tick();
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
@@ -978,99 +918,7 @@
     return api;
   }
 
-  // ---------- engagement: the mark unfolds into the fee → equity scale ----------
-  // Drawn on one fixed canvas over the whole window (nothing can clip it); the band is only the hit area.
-  // Three 45° bars (row 1: two meeting in the middle, row 2: one across), the mark's thin cut between them.
-  function Engage3D(band) {
-    var canvas = document.createElement('canvas'); canvas.className = 'engage-gl'; document.body.appendChild(canvas);
-    var gl = renderer(canvas), scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, 1, 4000), D = 140;
-    lights(scene);
-    var block = new THREE.Group(); scene.add(block);
-    var bars = [], ghosts = [], built = '';
-    var START = [ // the bar's pose inside the mark (centre on the 40 grid in three coords, angle)
-      { c: [-10.4, 10.4], rz: -Math.PI / 4 },
-      { c: [10.4, 10.4], rz: Math.PI / 4 },
-      { c: [10.4, -10.4], rz: -Math.PI / 4 }
-    ];
-    var flips = [0, 0, 0], flipT = -1;
-    var user = grab(band, function () { flipT = performance.now(); });
-    var hover = { x: 0, y: 0, on: false };
-    band.addEventListener('pointermove', function (e) { var r = band.getBoundingClientRect(); hover.x = (e.clientX - r.left) / r.width - 0.5; hover.y = (e.clientY - r.top) / r.height - 0.5; hover.on = true; });
-    band.addEventListener('pointerleave', function () { hover.on = false; });
-
-    function build(W, H) {
-      bars.concat(ghosts).forEach(function (o) { block.remove(o.g || o); });
-      bars = []; ghosts = [];
-      var h = H / 2.2, g = h * 0.2, y0 = -(2 * h + g) / 2, y1 = y0 + h + g;
-      var shapes = [ // [bottom-left x, bottom-right x, bottom y]; each bar leans 45° to the right by h
-        [-W / 2 + h + g, -g / 2 - h / 2, y1],      // row 1, left  (comes from the left)
-        [-W / 2, W / 2 - 2 * h - g, y0],          // row 2, full  (sweeps in)
-        [g / 2 - h / 2, W / 2 - h, y1]            // row 1, right (comes from the right)
-      ];
-      shapes.forEach(function (sh, i) {
-        var a = sh[0], b = sh[1], y = sh[2];
-        var pts = [[a, y], [b, y], [b + h, y + h], [a + h, y + h]];
-        var cx = (a + b + h) / 2, cy = y + h / 2;
-        var shape = new THREE.Shape();
-        pts.forEach(function (q, j) { if (j === 0) shape.moveTo(q[0] - cx, q[1] - cy); else shape.lineTo(q[0] - cx, q[1] - cy); });
-        var depth = h * 0.8, geo = new THREE.ExtrudeGeometry(shape, { depth: depth, bevelEnabled: false });
-        geo.translate(0, 0, -depth / 2);
-        var pos = geo.attributes.position, cols = new Float32Array(pos.count * 3), c = new THREE.Color();
-        for (var k = 0; k < pos.count; k++) { c.copy(c1).lerp(c2, clamp((pos.getX(k) + cx + W / 2) / W)); cols[k * 3] = c.r; cols[k * 3 + 1] = c.g; cols[k * 3 + 2] = c.b; }
-        geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-        var mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, opacity: 0, roughness: 0.38, metalness: 0.15 }));
-        var edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: EDGE[i], transparent: true, opacity: 1 }));
-        var grp = new THREE.Group(); grp.add(mesh); grp.add(edges); block.add(grp);
-        // pose inside the mark: same centre and angle as the mark's part, scaled to the mark's bar
-        var M = H * 1.5 / 40, len = b - a + h, st = START[i];
-        bars.push({ g: grp, mesh: mesh, edges: edges, home: new THREE.Vector3(cx, cy, 0),
-          start: { x: st.c[0] * M, y: st.c[1] * M, rz: st.rz, sx: 24 * M / len, sy: 8 * M / h } });
-        var gl2 = pts.map(function (q) { return new THREE.Vector3(q[0], q[1], 0); }); gl2.push(gl2[0].clone());
-        var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(gl2), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: h * 0.12, gapSize: h * 0.14, transparent: true, opacity: 0 }));
-        line.computeLineDistances(); block.add(line); ghosts.push(line);
-      });
-    }
-
-    var api = {};
-    api.size = function () { gl.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.position.set(0, 0, D); camera.updateProjectionMatrix(); };
-    api.visible = function () { var r = engage.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
-    var cleared = false;
-    api.frame = function () {
-      if (!api.visible()) { if (!cleared) { gl.clear(); cleared = true; } return; }
-      cleared = false;
-      var r = band.getBoundingClientRect(), u = 2 * D * TAN / innerHeight;
-      var key = Math.round(r.width) + 'x' + Math.round(r.height);
-      if (key !== built) { built = key; build(r.width * u, r.height * u); }
-      block.position.set((r.left + r.width / 2 - innerWidth / 2) * u, -(r.top + r.height / 2 - innerHeight / 2) * u, 0);
-
-      var now = performance.now(), t = now / 1000;
-      var b = clamp((innerHeight - r.top) / (innerHeight * 0.68));
-      var appear = ease(seg(b, 0, 0.16)), fill = ease(seg(b, 0.72, 0.94));
-      ghosts.forEach(function (l) { l.material.opacity = 0.35 * ease(seg(b, 0.04, 0.2)) * (1 - ease(seg(b, 0.62, 0.8))); l.visible = l.material.opacity > 0.01; });
-      bars.forEach(function (bar, i) {
-        var k = ease(seg(b, 0.18 + i * 0.09, 0.6 + i * 0.09)), o = 1 - k, s = bar.start, h = bar.home;
-        // unfold: slide out of the mark, flip once on the long axis, lift toward you mid-way, grow to length
-        var flip = 0;
-        if (flipT > 0) { var ft = clamp((now - flipT - i * 140) / 700); flip = ease(ft) * Math.PI * 2; if (i === 2 && ft >= 1) flipT = -1; }
-        var bob = fill * Math.sin(t * 1.3 + i * 1.7) * 0.6;
-        bar.g.position.set(s.x * o + h.x * k, s.y * o + h.y * k + bob, Math.sin(Math.PI * k) * 18 + bob);
-        bar.g.rotation.set(o * Math.PI + flip, 0, s.rz * o);
-        bar.g.scale.set(s.sx * o + k, s.sy * o + k, 1);
-        bar.mesh.material.opacity = fill; bar.mesh.material.transparent = fill < 1;
-        bar.edges.material.opacity = appear * (1 - fill); bar.edges.visible = fill < 0.98 && appear > 0.01;
-      });
-      // lean toward the pointer, plus the viewer's drag
-      user.step(now);
-      var lx = hover.on ? hover.y * 0.25 : 0, ly = hover.on ? hover.x * 0.35 : 0;
-      block.rotation.x += (lx + user.x + 0.18 * (1 - fill) - block.rotation.x) * 0.12;
-      block.rotation.y += (ly + user.y - block.rotation.y) * 0.12;
-      gl.render(scene, camera);
-    };
-    api.size();
-    return api;
-  }
-
-  var big, foot, row, band = engage.querySelector('.band3d');
+  var big, foot;
   try {
     big = Mark3D(hero.querySelector('.gl'), [
       { p: [-120, 40, -60], r: [0.9, -1.5, 0.6] },
@@ -1082,9 +930,8 @@
       { p: [90, 40, -40], r: [-0.9, 1.1, -0.6] },
       { p: [60, -90, 30], r: [1.0, 0.9, -0.5] }
     ]);
-    row = Engage3D(band);
   } catch (e) { return still(); }
-  addEventListener('resize', function () { big.size(); foot.size(); row.size(); });
+  addEventListener('resize', function () { big.size(); foot.size(); });
 
   // ---------- hero: the headline follows the build, one line per part, then the whole ----------
   var STEPS = [
@@ -1153,8 +1000,6 @@
       landed[i] = on; ticks[i].classList.toggle('in', on);
     }
     show(tt < 2.9 ? 0 : tt < 5.5 ? 1 : tt < 8.1 ? 2 : 3);
-
-    row.frame();
 
     // the contact scene: the mark builds itself again as the scene slides up into view
     if (foot.visible()) {
